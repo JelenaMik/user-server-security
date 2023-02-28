@@ -3,8 +3,8 @@ package com.example.security.auth;
 
 import com.example.security.repository.UserRepository;
 import com.example.security.config.JwtService;
-import com.example.security.user.Role;
-import com.example.security.user.User;
+import com.example.security.enums.Role;
+import com.example.security.repository.model.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

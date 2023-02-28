@@ -1,5 +1,6 @@
-package com.example.security.user;
+package com.example.security.repository.model;
 
+import com.example.security.enums.Role;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import jakarta.persistence.Column;
