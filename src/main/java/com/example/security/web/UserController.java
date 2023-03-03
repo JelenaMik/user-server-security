@@ -3,10 +3,6 @@ package com.example.security.web;
 import com.example.security.auth.AuthenticationResponse;
 import com.example.security.responseBodyModel.UserData;
 import com.example.security.service.UserService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
@@ -24,7 +20,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 
-@Api(tags = "User login Controller", description = "Operations performing on registration and login")
+//@Api(tags = "User login Controller", description = "Operations performing on registration and login")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/user")

@@ -29,8 +29,8 @@ public class Config {
 
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-                .title("Appointment booking system")
-                .description("User microservice for Appointment booking system")
+                .title("Appointment system")
+                .description("User Data microservice")
                 .version("1.0")
                 .build();
     }

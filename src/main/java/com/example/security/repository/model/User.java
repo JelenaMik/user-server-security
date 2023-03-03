@@ -1,8 +1,6 @@
 package com.example.security.repository.model;
 
 import com.example.security.enums.Role;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -21,7 +19,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-@ApiModel(value = "Model of authentication credential")
+//@ApiModel(value = "Model of authentication credential")
 @Data
 @Builder
 @NoArgsConstructor
@@ -29,18 +27,18 @@ import org.springframework.security.core.userdetails.UserDetails;
 @Entity
 @Table(name = "users")
 public class User implements UserDetails {
-    @ApiModelProperty(value = "The unique id of user")
+//    @ApiModelProperty(value = "The unique id of user")
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id")
     private Long id;
-    @ApiModelProperty(value = "The unique username")
+//    @ApiModelProperty(value = "The unique username")
     @Column(name="email", nullable = false, unique=true)
     private String email;
-    @ApiModelProperty(value = "User password")
+//    @ApiModelProperty(value = "User password")
     @Column(name="password", nullable = false)
     private String password;
-    @ApiModelProperty(value = "The role of user")
+//    @ApiModelProperty(value = "The role of user")
     @Column(name="role")
     @Enumerated(EnumType.STRING)
     private Role role;
