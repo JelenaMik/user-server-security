@@ -1,17 +1,42 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
   <title>Welcome page</title>
+  <link href="/styles/stylesheet.css" rel="stylesheet"/>
   <meta name=viewport" content="width=device-width"; initial-scale="1.0">
 </head>
-<body>
 
-<div>
-  <button th:href="@{/register}" type="submit">Register</button>
+<body class="index-body">
+
+<div class="header">
+  <h1>Welcome to appointment booking system!</h1>
 </div>
-<div>
-  <button th:href="@{/authenticate}" type="submit">Login</button>
+
+
+<div class="pageContent">
+  <div class="centered-content">
+
+    <div class="main-link login">
+      <p>Already a user?</p>
+      <a href="/login" >Login</a>
+    </div>
+    <div class="main-link register">
+      <p>New user?</p>
+      <a href="/register" >Register</a>
+    </div>
+  </div>
+
+
+
+</div>
+
+
+
+<div class="footer">
+  <p>Personal project</p>
 </div>
 
 </body>

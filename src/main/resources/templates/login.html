@@ -1,24 +1,46 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
-  <title>Login page</title>
-  <meta name=viewport" content="width=device-width"; initial-scale="1.0">
+    <meta charset="UTF-8">
+    <title>Login page</title>
+<!--    <meta name=viewport" content="width=device-width"; initial-scale="1.0">-->
+    <link href="/styles/stylesheet.css" rel="stylesheet"/>
 </head>
-<body>
+<body class="index-body">
+<div class="login-header">
+    <h1>Welcome to appointment booking system!</h1>
+</div>
 
-<form method="post" action="/authenticate">
-  <div>
-    <input name="email" type="email" placeholder="Enter your username">
-  </div>
-  <div>
-    <input name="password" type="password" placeholder="Enter your password">
-  </div>
-  <div>
-    <button >Login</button>
-  </div>
+<div class="loginPageContent centered-content">
+    <div class="form">
+        <form class="login-form" method="post" action="/api/v1/user/authenticate">
+            <h2>Please login</h2>
+            <div>
+                <input class="input" name="email" type="email" placeholder = "Enter your email"/>
 
-</form>
+            </div>
+            <div>
+                <input class="input" name="password" type="password" placeholder = "Enter your password"/>
+            </div>
+            <div>
+                <button class="login-button" type="submit">Login</button>
+            </div>
+<!--            <div>-->
+<!--                <p th:if="${param == 'error'}" th:color="red"> User not found. Check your username and password</p>-->
+<!--            </div>-->
+            <p>New user? <a href="/register" >Register</a></p>
+        </form>
+    </div>
+
+
+</div>
+
+<div class="footer">
+    <p>Personal project</p>
+</div>
+
 
 </body>
 </html>

@@ -1,13 +1,17 @@
 package com.example.security.web;
 
+import com.example.security.auth.AuthenticationRequest;
 import com.example.security.auth.AuthenticationResponse;
+import com.example.security.auth.AuthenticationService;
 import com.example.security.responseBodyModel.UserData;
 import com.example.security.service.UserService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,6 +26,7 @@ import java.util.List;
 
 //@Api(tags = "User login Controller", description = "Operations performing on registration and login")
 @RestController
+@Log4j2
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/user")
 public class UserController {
@@ -30,6 +35,7 @@ public class UserController {
     private RestTemplate restTemplate;
 
     private final UserService userService;
+    private final AuthenticationService service;
 
 //    Testing
     @GetMapping("/hi")
@@ -64,6 +70,23 @@ public class UserController {
     public ResponseEntity<AuthenticationResponse> changeEmail(@PathVariable Long id, String email){
         return ResponseEntity.ok(userService.changeEmail(id, email));
     }
+    @PostMapping(path ="/authenticate",
+            consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE,
+            produces = {
+                    MediaType.APPLICATION_JSON_VALUE
+            })
+    public ResponseEntity<AuthenticationResponse> authenticate(
+            String email, String password
+    ) {
+        log.info("in auth method");
+        AuthenticationRequest request = new AuthenticationRequest(email, password);
+        log.info(request);
+        return ResponseEntity.ok(service.authenticate(request));
+    }
+
+
+
+
 
 
 

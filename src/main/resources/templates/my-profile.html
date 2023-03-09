@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head  >
+    <meta charset="UTF-8">
+    <title>My profile</title>
+    <script th:inline="javascript">
+        if(!localStorage.getItem("userId") || !localStorage.getItem("userId") !== null){
+            const activeUserId = "5";
+            const activeUserName = "test";
+            localStorage.setItem("userId", activeUserId);
+            localStorage.setItem("userName", activeUserName)
+        }
+    </script>
+    <link href="/styles/stylesheet.css" rel="stylesheet"/>
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+</head>
+
+<body class="index-body">
+
+<div class="page-header">
+    <nav class="logout-ion">
+            <a class="link" href="logout">
+                <ion-icon name="log-out-outline"></ion-icon>
+            </a>
+                <p>Hello, <span th:text="${firstName}"></span> !</p>
+    </nav>
+    <div class="navigation-bar">
+        <a class="nav-link" href="update-profile">Update profile information</a>
+        <a class="nav-link" href="change-login-info">Change login information</a>
+        <a class="nav-link" >My appointments</a>
+        <a class="nav-link" >Messages</a>
+    </div>
+
+</div>
+
+<div class="pageContent centered-content">
+
+
+<h2>Here goes information about upcoming appointments</h2>
+
+    <script>
+
+        console.log(navigator.cookieEnabled);
+        document.cookie="userId = [[${userId}]]";
+        console.log(document.cookie);
+    </script>
+
+<h2>
+    <script>
+       getActiveUserId = function () {
+               const getActiveUserId =  localStorage.getItem("userId");
+           document.getElementById("getActiveUserId").innerHTML = getActiveUserId;
+           return getActiveUserId;
+           }
+
+    </script>
+</h2>
+
+</div>
+
+<div class="footer">
+    <p>Personal project</p>
+</div>
+
+</body>
+</html>

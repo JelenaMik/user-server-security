@@ -2,12 +2,10 @@ package com.example.security.service.impl;
 
 import com.example.security.auth.AuthenticationResponse;
 import com.example.security.config.JwtService;
-import com.example.security.enums.Role;
 import com.example.security.repository.UserRepository;
 import com.example.security.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import com.example.security.repository.model.User;
@@ -39,6 +37,11 @@ public class UserServiceImpl implements UserService {
         return AuthenticationResponse.builder()
                 .token(jwtToken)
                 .build();
+    }
+
+    @Override
+    public Long getUserIdByEmail(String email){
+        return userRepository.findByEmail(email).get().getId();
     }
 
 }
