@@ -3,14 +3,14 @@
 <head  >
     <meta charset="UTF-8">
     <title>My profile</title>
-    <script th:inline="javascript">
-        if(!localStorage.getItem("userId") || !localStorage.getItem("userId") !== null){
-            const activeUserId = "5";
-            const activeUserName = "test";
-            localStorage.setItem("userId", activeUserId);
-            localStorage.setItem("userName", activeUserName)
-        }
-    </script>
+<!--    <script th:inline="javascript">-->
+<!--        if(!localStorage.getItem("userId") || !localStorage.getItem("userId") !== null){-->
+<!--            const activeUserId = "5";-->
+<!--            const activeUserName = "test";-->
+<!--            localStorage.setItem("userId", activeUserId);-->
+<!--            localStorage.setItem("userName", activeUserName)-->
+<!--        }-->
+<!--    </script>-->
     <link href="/styles/stylesheet.css" rel="stylesheet"/>
     <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
@@ -18,12 +18,18 @@
 
 <body class="index-body">
 
+<script th:inline="javascript">
+    const userId = localStorage.getItem("userId");
+    const userName= localStorage.getItem("userName");
+</script>
+
 <div class="page-header">
     <nav class="logout-ion">
             <a class="link" href="logout">
                 <ion-icon name="log-out-outline"></ion-icon>
             </a>
-                <p>Hello, <span th:text="${firstName}"></span> !</p>
+                <p>Hello, <span id="name"><script>document.getElementById("name").innerText = localStorage.getItem("userName")</script></span> !</p>
+<!--        <span th:text="${firstName}"></span>-->
     </nav>
     <div class="navigation-bar">
         <a class="nav-link" href="update-profile">Update profile information</a>
@@ -38,6 +44,7 @@
 
 
 <h2>Here goes information about upcoming appointments</h2>
+
 
     <script>
 

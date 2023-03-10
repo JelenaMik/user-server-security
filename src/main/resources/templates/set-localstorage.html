@@ -1,0 +1,24 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head  >
+  <meta charset="UTF-8">
+  <title>Login successful</title>
+  <meta http-equiv="refresh" content=" 2; http://localhost:8101/my-profile " />
+<!--  <meta name=viewport" content="width=device-width" initial-scale="1.0">-->
+  <script th:inline="javascript">
+      const activeUserId = [[${userId}]];
+      const activeUserName = [[${userName}]]
+      localStorage.setItem("userId", activeUserId);
+      localStorage.setItem("userName", activeUserName);
+  </script>
+  <link href="/styles/stylesheet.css" rel="stylesheet"/>
+
+</head>
+<body>
+
+Login was successful...
+
+</body>
+</html>

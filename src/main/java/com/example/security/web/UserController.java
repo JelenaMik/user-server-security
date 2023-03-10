@@ -70,17 +70,25 @@ public class UserController {
     public ResponseEntity<AuthenticationResponse> changeEmail(@PathVariable Long id, String email){
         return ResponseEntity.ok(userService.changeEmail(id, email));
     }
-    @PostMapping(path ="/authenticate",
-            consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE,
-            produces = {
-                    MediaType.APPLICATION_JSON_VALUE
-            })
+//    this works
+//    @PostMapping(path ="/authenticate",
+//            consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE,
+//            produces = {
+//                    MediaType.APPLICATION_JSON_VALUE
+//            })
+//    public ResponseEntity<AuthenticationResponse> authenticate(
+//            String email, String password
+//    ) {
+//        log.info("in auth method");
+//        AuthenticationRequest request = new AuthenticationRequest(email, password);
+//        log.info(request);
+//        return ResponseEntity.ok(service.authenticate(request));
+//    }
+
+    @PostMapping("/authenticate")
     public ResponseEntity<AuthenticationResponse> authenticate(
-            String email, String password
+            @RequestBody AuthenticationRequest request
     ) {
-        log.info("in auth method");
-        AuthenticationRequest request = new AuthenticationRequest(email, password);
-        log.info(request);
         return ResponseEntity.ok(service.authenticate(request));
     }
 

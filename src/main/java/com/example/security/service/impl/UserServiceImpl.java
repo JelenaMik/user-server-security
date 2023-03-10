@@ -2,6 +2,8 @@ package com.example.security.service.impl;
 
 import com.example.security.auth.AuthenticationResponse;
 import com.example.security.config.JwtService;
+import com.example.security.enums.Role;
+import com.example.security.handler.exceptions.UserDataNotFoundException;
 import com.example.security.repository.UserRepository;
 import com.example.security.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -42,6 +44,13 @@ public class UserServiceImpl implements UserService {
     @Override
     public Long getUserIdByEmail(String email){
         return userRepository.findByEmail(email).get().getId();
+    }
+
+    @Override
+    public void changeUserRole(Long id, String role){
+        User user = userRepository.findById(id).orElseThrow( UserDataNotFoundException::new );
+        user.setRole(Role.valueOf(role.toUpperCase()));
+        userRepository.save(user);
     }
 
 }

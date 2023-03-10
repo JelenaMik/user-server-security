@@ -1,0 +1,48 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Registration</title>
+<!--    <meta name=viewport" content="width=device-width"; initial-scale="1.0">-->
+    <link href="/styles/stylesheet.css" rel="stylesheet"/>
+</head>
+<body class="login-body">
+<div class="login-header">
+    <h1>Welcome to appointment booking system!</h1>
+</div>
+
+<div class="loginPageContent centered-content">
+
+    <div class="form">
+
+
+
+    <form class="login-form" th:action="@{/register}" method="post"
+
+          th:object = "${user}">
+        <h3>Enter your credential to register</h3>
+        <div>
+            <input type="email" class="input" th:field="*{email}" placeholder="Enter your email" />
+        </div>
+
+        <div>
+            <input type="password" class="input" th:field="*{password}"  placeholder="Password"/> <br><br>
+        </div>
+        <div>
+            <button class="login-button" type="submit">Save my login information</button>
+        </div>
+
+    </form>
+
+    </div>
+
+
+</div>
+
+<div class="footer">
+    <p>Personal project</p>
+</div>
+</body>
+</html>

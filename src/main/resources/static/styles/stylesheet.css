@@ -54,6 +54,9 @@ pageContent{
 .index-body{
     background: #FCFFE7;
 }
+.login-body{
+    background: #2B3467;
+}
 
 .input{
     display: inline-block;
@@ -153,6 +156,7 @@ pageContent{
 
 .link{
 font-size: 40px;
+    color: #FCFFE7;
 }
 
 .navigation-bar{
