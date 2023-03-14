@@ -17,46 +17,49 @@
 </head>
 
 <body class="index-body">
+<div th:include="header.html :: header"></div>
 
-<script th:inline="javascript">
-    const userId = localStorage.getItem("userId");
-    const userName= localStorage.getItem("userName");
-</script>
+<!--<script th:inline="javascript">-->
+<!--    const userId = localStorage.getItem("userId");-->
+<!--    const userName= localStorage.getItem("userName");-->
+<!--</script>-->
 
-<div class="page-header">
-    <nav class="logout-ion">
-            <a class="link" href="logout">
-                <ion-icon name="log-out-outline"></ion-icon>
-            </a>
-                <p>Hello, <span id="name"><script>document.getElementById("name").innerText = localStorage.getItem("userName")</script></span> !</p>
-<!--        <span th:text="${firstName}"></span>-->
-    </nav>
-    <div class="navigation-bar">
-        <a class="nav-link" href="update-profile">Update profile information</a>
-        <a class="nav-link" href="change-login-info">Change login information</a>
-        <a class="nav-link" >My appointments</a>
-        <a class="nav-link" >Messages</a>
-    </div>
+<!--<div class="page-header">-->
+<!--    <nav class="logout-ion">-->
+<!--            <a class="link" href="logout">-->
+<!--                <ion-icon name="log-out-outline"></ion-icon>-->
+<!--            </a>-->
+<!--                <p>Hello, <span id="name"><script>document.getElementById("name").innerText = localStorage.getItem("userName")</script></span> !</p>-->
+<!--&lt;!&ndash;        <span th:text="${firstName}"></span>&ndash;&gt;-->
+<!--    </nav>-->
+<!--    <div class="navigation-bar">-->
+<!--        <a class="nav-link" href="update-profile">Update profile information</a>-->
+<!--        <a class="nav-link" href="change-login-info">Change login information</a>-->
+<!--        <a class="nav-link" >My appointments</a>-->
+<!--        <a class="nav-link" >Messages</a>-->
+<!--    </div>-->
 
-</div>
+<!--</div>-->
 
 <div class="pageContent centered-content">
 
 
 <h2>Here goes information about upcoming appointments</h2>
 
+<!--    <h2>My name is <span id="name"><script>-->
+<!--        document.getElementById("name").innerText = JSON.stringify(userData.id);</script></span></h2>-->
+<!--    <script>-->
 
-    <script>
-
-        console.log(navigator.cookieEnabled);
-        document.cookie="userId = [[${userId}]]";
-        console.log(document.cookie);
-    </script>
+<!--        console.log(navigator.cookieEnabled);-->
+<!--        // document.cookie="userId = [[${userId}]]";-->
+<!--        console.log(document.cookie);-->
+<!--    </script>-->
 
 <h2>
     <script>
        getActiveUserId = function () {
-               const getActiveUserId =  localStorage.getItem("userId");
+           const userData = JSON.parse(localStorage.getItem("userData"));
+           const getActiveUserId = userData.userId;
            document.getElementById("getActiveUserId").innerHTML = getActiveUserId;
            return getActiveUserId;
            }

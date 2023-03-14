@@ -27,8 +27,26 @@
             <input type="email" class="input" th:field="*{email}" placeholder="Enter your email" />
         </div>
 
+        <script>const check = function () {
+            if (document.getElementById('password').value ==
+                document.getElementById('confirm_password').value) {
+                document.getElementById('message').style.color = 'green';
+                document.getElementById('message').innerHTML = 'Passwords are matching';
+            } else {
+                document.getElementById('message').style.color = 'red';
+                document.getElementById('message').innerHTML = 'Passwords not matching';
+            }
+        };</script>
+
         <div>
-            <input type="password" class="input" th:field="*{password}"  placeholder="Password"/> <br><br>
+            <input th:field="*{password}" class="input" type="password" id="password" placeholder="Enter your password"
+                   onkeyup='check();'/>
+        </div>
+
+        <div>
+            <input type="password" class="input" name="confirm_password" id="confirm_password" placeholder="Confirm password"
+                   onkeyup='check();'/> <br>
+            <span id='message'></span><br>
         </div>
         <div>
             <button class="login-button" type="submit">Save my login information</button>

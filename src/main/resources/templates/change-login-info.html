@@ -6,44 +6,87 @@
   <meta charset="UTF-8">
   <title>Update login information</title>
   <link href="/styles/stylesheet.css" rel="stylesheet"/>
+  <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
 </head>
 <body class="login-body">
-<div class="login-header">
-  <h1>Welcome to appointment booking system!</h1>
-</div>
+<div th:include="header.html :: header"></div>
 
 <div class="loginPageContent centered-content">
 
-  <div class="login-form">
-    <h3>Please complete registration</h3>
 
-    <form th:action="@{/save-user-data}" method="post"
-          th:object="${userData}">
+
+  <div>
+
+    <form class="login-form" th:action="@{/update-login-info}" method="post"
+          th:object = "${user}">
+
+      <h3>Change your email and/or password</h3>
       <div>
-        <input type="hidden" class="input" name="userId"  th:value="${userId}" />
+        <input type="email" class="input" id="setEmail" name="email" th:field="*{email}"  />
       </div>
+      <script>
+            document.getElementById("setEmail").value = localStorage.getItem("email");
+      </script>
+
+      <script>const checking = function () {
+        if (document.getElementById('passwordChange').value ==
+                document.getElementById('confirm_passwordChange').value) {
+          document.getElementById('messageChange').style.color = 'green';
+          document.getElementById('messageChange').innerHTML = 'Passwords are matching';
+        } else {
+          document.getElementById('messageChange').style.color = 'red';
+          document.getElementById('messageChange').innerHTML = 'Passwords not matching';
+        }
+      };</script>
+
+
       <div>
-        <input type="text" class="input" th:field="*{firstName}" placeholder="Enter your first name" />
+        <input th:field="*{password}" name="password" class="input" type="password" id="passwordChange" placeholder="Enter your password" minlength="4"
+               onkeyup='checking();'/>
       </div>
 
       <div>
-        <input type="text" class="input" th:field="*{lastName}"  placeholder="Enter your last name"/> <br>
+        <input type="password" class="input" name="confirm_password" id="confirm_passwordChange" placeholder="Confirm password"
+               onkeyup='checking();'/> <br>
+        <span id='messageChange'></span><br>
       </div>
+
       <div>
-        <p>Select your role</p>
-        <input type="radio" id="client" class="input" name="role" value="client" />
-        <label for="client"> Client</label>
-        <input type="radio" id="provider" class="input" name="role" value="provider" />
-        <label for="provider"> Provider</label>
-        <input type="radio" id="user" class="input" name="role" value="user" />
-        <label for="user"> Guest</label>
-      </div><br><br>
-      <div>
-        <button class="login-button" type="submit">Save my user information</button>
+        <input type="hidden" name="oldEmail" id="oldEmail" />
       </div>
+      <script>document.getElementById("oldEmail").value = localStorage.getItem("email");</script>
+
+
+      <div>
+        <button class="login-button" type="submit">Save my login information</button>
+      </div>
+
 
 
     </form>
+
+    <div>
+
+      <p th:if="${status ne null}" > <span>
+
+              <body onLoad="checkStatus()"></body>
+      </span>  </p>
+
+      <script th:inline="javascript">
+        const checkStatus = function (){
+          alert("Your credentials were updated");
+          const aNewEmail = [[${status}]];
+          localStorage.setItem("email", aNewEmail);
+        }
+
+      </script>
+
+    </div>
+
+
+
+
   </div>
 </div>
 <div class="footer">

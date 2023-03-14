@@ -16,6 +16,8 @@
 <div class="loginPageContent centered-content">
     <div class="form">
 <!--        <form class="login-form" method="post" action="/api/v1/user/authenticate" > this works-->
+
+
         <form class="login-form" method="post" action="/login-process" >
             <h2>Please login</h2>
             <div>
@@ -26,13 +28,15 @@
                 <input class="input" name="password" type="password" placeholder = "Enter your password"/>
             </div>
             <div>
-                <button class="login-button" type="submit">Login</button>
+                <button class="login-button" type="submit">Login</button><br>
             </div>
-<!--            <div>-->
-<!--                <p th:if="${param == 'error'}" th:color="red"> User not found. Check your username and password</p>-->
-<!--            </div>-->
+            <div>
+                <p th:if="${status == 'user_not_found'}" th:color="red"> User not found. Check your username and password</p>
+            </div>
             <p>New user? <a href="/register" >Register</a></p>
         </form>
+
+
     </div>
 
 

@@ -42,6 +42,18 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public AuthenticationResponse changeEmailAndPassword(User user, String oldEmail){
+        User userWithId = userRepository.findByEmail(oldEmail).orElseThrow( RuntimeException::new );
+        userWithId.setEmail(user.getEmail());
+        userWithId.setPassword(passwordEncoder.encode(user.getPassword()));
+        userRepository.save(userWithId);
+        var jwtToken = jwtService.generateToken(user);
+        return AuthenticationResponse.builder()
+                .token(jwtToken)
+                .build();
+    }
+
+    @Override
     public Long getUserIdByEmail(String email){
         return userRepository.findByEmail(email).get().getId();
     }

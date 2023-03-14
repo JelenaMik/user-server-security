@@ -8,14 +8,18 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link href="/styles/stylesheet.css" rel="stylesheet"/>
+
 </head>
 <body>
 
-<script>
-    console.log(navigator.cookieEnabled);
-    document.cookie="token = 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0QG1haWwuY29tIiwiaWF0IjoxNjc4MjgzNTkyLCJleHAiOjE2NzgyODUwMzJ9.YTGzYEfPOGFL0tPsJKgTbInoYhiHKzFrFlRyJYDmMMw'";
-    console.log(document.cookie);
-</script>
+<div th:include="header.html :: header"></div>
+
+<!--<script>-->
+<!--    console.log(navigator.cookieEnabled);-->
+<!--    document.cookie="token = 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0QG1haWwuY29tIiwiaWF0IjoxNjc4MjgzNTkyLCJleHAiOjE2NzgyODUwMzJ9.YTGzYEfPOGFL0tPsJKgTbInoYhiHKzFrFlRyJYDmMMw'";-->
+<!--    console.log(document.cookie);-->
+<!--</script>-->
 <h2>Complete registration</h2>
 </body>
 </html>

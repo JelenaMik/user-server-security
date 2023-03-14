@@ -8,10 +8,10 @@
   <meta http-equiv="refresh" content=" 2; http://localhost:8101/my-profile " />
 <!--  <meta name=viewport" content="width=device-width" initial-scale="1.0">-->
   <script th:inline="javascript">
-      const activeUserId = [[${userId}]];
-      const activeUserName = [[${userName}]]
-      localStorage.setItem("userId", activeUserId);
-      localStorage.setItem("userName", activeUserName);
+      const activeUserEmail = [[${email}]];
+      const userDataJson = [[${userData}]];
+      localStorage.setItem("email", activeUserEmail);
+      localStorage.setItem("userData", JSON.stringify(userDataJson));
   </script>
   <link href="/styles/stylesheet.css" rel="stylesheet"/>
 

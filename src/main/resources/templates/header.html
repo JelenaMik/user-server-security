@@ -1,0 +1,43 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Header</title>
+  <link href="/styles/stylesheet.css" rel="stylesheet"/>
+  <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+</head>
+<body>
+<div th:fragment="header">
+  <script th:inline="javascript">
+    let email= localStorage.getItem("email");
+    let userDataText= localStorage.getItem("userData");
+    let userData = JSON.parse(userDataText);
+  </script>
+
+  <div class="page-header">
+    <nav class="logout-ion">
+      <a class="link" href="my-profile">
+        <ion-icon name="home"></ion-icon>
+      </a>
+      <a class="link" href="logout">
+        <ion-icon name="log-out-outline"></ion-icon>
+      </a>
+      <p>Hello, <span id="headerName"><script>
+        document.getElementById("headerName").innerText = JSON.stringify(userData.firstName).slice(1,-1)</script></span> !</p>
+      <!--        <span th:text="${firstName}"></span>-->
+    </nav>
+    <div class="navigation-bar">
+      <a class="nav-link" href="update-profile">Update profile information</a>
+      <a class="nav-link" href="change-login-info">Change login information</a>
+      <a class="nav-link" >My appointments</a>
+      <a class="nav-link" >Messages</a>
+    </div>
+
+  </div>
+</div>
+
+</body>
+</html>
