@@ -7,6 +7,8 @@ import com.example.security.auth.RegisterRequest;
 import com.example.security.repository.model.User;
 import com.example.security.responseBodyModel.UserData;
 import com.example.security.service.UserService;
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
+import io.github.resilience4j.retry.annotation.Retry;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +25,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
+
+import java.time.LocalDateTime;
 
 @Controller
 @Log4j2
@@ -42,6 +46,8 @@ public class WebController {
     }
 
     @GetMapping("/set-localstorage/{email}")
+//    @CircuitBreaker(name = "user-data-service", fallbackMethod = "defaultData")
+    @Retry(name="user-data-service", fallbackMethod = "defaultData")
     public String fillLocalStorageValues(@PathVariable (value = "email") String email, Model model){
 
         Long userId = userService.getUserIdByEmail(email);
@@ -51,6 +57,14 @@ public class WebController {
 
         return "set-localstorage";
     }
+    public String defaultData(String email, Model model, Exception e){
+        Long userId = userService.getUserIdByEmail(email);
+        model.addAttribute("email", email);
+        model.addAttribute("userData", new UserData(null, userId, "first Name", "last Name", LocalDateTime.now()));
+        return "set-localstorage";
+    }
+
+
 
     @GetMapping("/user-info")
     public String showUserInfo(){
@@ -64,7 +78,6 @@ public class WebController {
 //                activeUser.setFirstName("User");
 //                role="user";
 //            }
-
 
         return "user-info";
     }
@@ -90,6 +103,7 @@ public class WebController {
     }
 
     @PostMapping("/login-process")
+    @Retry(name="security-service")
     public String authenticate(
             String email, String password
     ) {
@@ -115,7 +129,7 @@ public class WebController {
                     getUserIdByEmail(user.getEmail());
             log.info("user with id: {} created", userId);
             return "redirect:complete-registration?userId="+userId;
-        } else
+        }
         return "redirect:register?status=unsuccessful_registration";
     }
 
@@ -129,6 +143,7 @@ public class WebController {
     }
 
     @PostMapping("/save-user-data")
+    @Retry(name="user-data-service")
     public String saveUserData(UserData userData, Long userId, String role){
         userData.setUserId(userId);
         userService.changeUserRole(userId, role);
@@ -160,6 +175,7 @@ public class WebController {
     }
 
     @PostMapping("/update-user-data")
+    @Retry(name="security-service")
     public String changeUserDat(Long userId, String newLastName, String newFirstName){
         UserData userData = new UserData();
         userData.setUserId(userId);
@@ -170,6 +186,7 @@ public class WebController {
     }
 
     @GetMapping("/update-user-profile")
+    @Retry(name="security-service")
     public String setNewLocalStorage(Model model, Long id){
         UserData userData = restTemplate.getForObject("http://security-service/api/v1/user/user-data/"+id,  UserData.class);
         model.addAttribute("userData", userData);

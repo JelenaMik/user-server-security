@@ -1,6 +1,7 @@
 package com.example.security.auth;
 
 import com.example.security.responseBodyModel.UserData;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Log4j2
@@ -32,11 +34,13 @@ public class AuthenticationController {
         return ResponseEntity.ok(service.register(request));
     }
     @PostMapping("/authenticate")
+
     public ResponseEntity<AuthenticationResponse> authenticate(
             @RequestBody AuthenticationRequest request
     ) {
         return ResponseEntity.ok(service.authenticate(request));
     }
+
 
     @GetMapping("/registration")
     public ResponseEntity<String> showInfo(){

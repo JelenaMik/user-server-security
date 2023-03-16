@@ -31,13 +31,7 @@ public class authController {
         model.addAttribute("status", status);
         return "login";
     }
-//    @PostMapping("/login")
-//    public String handleLoginProcess(AuthenticationRequest request){
-//        log.info(request);
-//            AuthenticationResponse response = authenticationService.authenticate(request);
-//            log.info(response);
-//            return "my-profile";
-//    }
+
 
 
 
