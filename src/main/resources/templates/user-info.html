@@ -2,24 +2,67 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org">
-<html lang="en">
-
-
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>User info</title>
+    <!--    <meta name=viewport" content="width=device-width"; initial-scale="1.0">-->
     <link href="/styles/stylesheet.css" rel="stylesheet"/>
-
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
 </head>
-<body>
 
-<div th:include="header.html :: header"></div>
+<body class="index-body">
+<div th:insert="~{header.html :: header}"></div>
 
-<!--<script>-->
-<!--    console.log(navigator.cookieEnabled);-->
-<!--    document.cookie="token = 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0QG1haWwuY29tIiwiaWF0IjoxNjc4MjgzNTkyLCJleHAiOjE2NzgyODUwMzJ9.YTGzYEfPOGFL0tPsJKgTbInoYhiHKzFrFlRyJYDmMMw'";-->
-<!--    console.log(document.cookie);-->
-<!--</script>-->
-<h2>Complete registration</h2>
+
+<div class="pageContent centered-content">
+
+    <h3>User data </h3> <ion-icon name="person"></ion-icon>
+
+    <div class="info-table">
+        <table class="user-info-table ">
+            <thead>
+            <tr>
+                <td>
+               </td>
+                <th>User Id</th>
+                <td th:text="${user.id}"></td>
+            </tr>
+            <tr>
+                <td></td>
+                <th>Email</th>
+                <td th:text="${user.email}"></td>
+            </tr>
+            <tr><td></td>
+                <th>First name</th>
+                <td th:text="${userData.firstName}"></td>
+            </tr>
+            <tr><td></td>
+                <th>Last Name</th>
+                <td th:text="${userData.lastName}"></td>
+            </tr>
+            <tr><td></td>
+                <th>Registration Date</th>
+                <td th:text="${userData.registrationDate}"></td>
+            </tr>
+            <tr><td></td>
+                <th>Role</th>
+                <td th:text="${user.role}"></td>
+            </tr>
+<!--            <tr>-->
+<!--                <th>isActive</th>-->
+<!--                <td th:text="${user}></td>-->
+<!--            </tr>-->
+            </thead>
+
+        </table>
+
+    </div>
+
+</div>
+
+<div class="footer">
+    <p>Personal project</p>
+</div>
 </body>
 </html>

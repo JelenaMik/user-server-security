@@ -1,0 +1,68 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Admin page</title>
+  <!--    <meta name=viewport" content="width=device-width"; initial-scale="1.0">-->
+  <link href="/styles/stylesheet.css" rel="stylesheet"/>
+  <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+</head>
+
+<body class="index-body">
+<div th:insert="~{header.html :: header}"></div>
+
+
+  <div class="pageContent centered-content">
+
+    <div>
+      <h2>Search for users by email</h2>
+      <form action="search-users" method="post">
+        <input class="input" name="emailEntered">
+        <button type="submit" >Submit</button>
+      </form>
+    </div>
+
+  <div class="user-table">
+    <table class="summary-table">
+      <thead>
+      <tr>
+        <th>User Id</th>
+        <th>Email</th>
+        <!--      <th>First name</th>-->
+        <!--      <th>Last Name</th>-->
+        <!--      <th>Registration Date</th>-->
+        <th>Role</th>
+        <!--      <th>isActive</th>-->
+        <th>Action</th>
+      </tr>
+      </thead>
+
+      <tbody>
+      <tr th:each="user : ${users}">
+        <form action="admin-change-user" method="post">
+          <td th:text="${user.id}" ></td>
+          <td th:text="${user.email}" ></td>
+          <td th:text="${user.role}" ></td>
+          <input type="hidden" name="id" th:value="${user.id}">
+          <td><button class="submit-btn" type="submit">Change user info</button></td>
+        </form>
+
+      </tr>
+      </tbody>
+
+    </table>
+
+  </div>
+
+
+
+</div>
+
+<div class="footer">
+  <p>Personal project</p>
+</div>
+</body>
+</html>

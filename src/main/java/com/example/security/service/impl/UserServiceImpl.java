@@ -4,6 +4,7 @@ import com.example.security.auth.AuthenticationResponse;
 import com.example.security.config.JwtService;
 import com.example.security.enums.Role;
 import com.example.security.handler.exceptions.UserDataNotFoundException;
+import com.example.security.handler.exceptions.UserNotFoundException;
 import com.example.security.repository.UserRepository;
 import com.example.security.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -11,6 +12,9 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import com.example.security.repository.model.User;
+import org.springframework.util.StringUtils;
+
+import java.util.List;
 
 @Log4j2
 @RequiredArgsConstructor
@@ -64,6 +68,19 @@ public class UserServiceImpl implements UserService {
         User user = userRepository.findById(id).orElseThrow(UserDataNotFoundException::new);
         user.setRole(Role.valueOf(role.toUpperCase()));
         userRepository.save(user);
+    }
+
+
+    @Override
+    public User getUserById(Long id){
+        return userRepository.findById(id).orElseThrow(UserNotFoundException::new);
+    }
+
+    @Override
+    public List<User> findUsersBySearching(String email){
+        log.info("email entered {}", email );
+        if (StringUtils.hasText(email)) return userRepository.findFirst10ByEmailContaining(email);
+        return userRepository.findFirst10ByOrderByIdAsc();
     }
 
 }

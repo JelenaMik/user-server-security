@@ -7,6 +7,9 @@ import com.example.security.auth.RegisterRequest;
 import com.example.security.repository.model.User;
 import com.example.security.responseBodyModel.UserData;
 import com.example.security.service.UserService;
+import com.google.common.cache.CacheBuilder;
+import com.google.common.cache.CacheLoader;
+import com.google.common.cache.LoadingCache;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import io.github.resilience4j.retry.annotation.Retry;
 import lombok.RequiredArgsConstructor;
@@ -27,6 +30,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
 import java.time.LocalDateTime;
+import java.util.concurrent.TimeUnit;
 
 @Controller
 @Log4j2
@@ -64,39 +68,6 @@ public class WebController {
         return "set-localstorage";
     }
 
-
-
-    @GetMapping("/user-info")
-    public String showUserInfo(){
-//            model.addAttribute("userId", userId);
-//            UserDataDto activeUser = new UserDataDto();
-//            String role;
-//            try{
-//                activeUser = userDataService.getUser(userId);
-//                role = userService.getUserRole(userId);
-//            }catch (Exception e){
-//                activeUser.setFirstName("User");
-//                role="user";
-//            }
-
-        return "user-info";
-    }
-
-//    @PostMapping(path ="/authentication",
-//            consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE,
-//            produces = {
-//                    MediaType.APPLICATION_ATOM_XML_VALUE,
-//                    MediaType.APPLICATION_JSON_VALUE
-//            })
-//    public ResponseEntity<AuthenticationResponse> authenticate(
-//            String email, String password
-//    ) {
-//        log.info("in auth method");
-//        AuthenticationRequest request = new AuthenticationRequest(email, password);
-//        log.info(request);
-//        return ResponseEntity.ok(service.authenticate(request));
-//    }
-
     @GetMapping("/authenticate")
     public String returnPage(){
         return "authenticate";
@@ -109,6 +80,7 @@ public class WebController {
     ) {
         AuthenticationRequest request = new AuthenticationRequest(email, password);
         try{
+
             AuthenticationResponse response = restTemplate.postForObject("http://security-service/api/v1/user/authenticate", request,  AuthenticationResponse.class);
             return "redirect:set-localstorage/"+email;}
         catch (Exception e){return "redirect:login?status=user_not_found";}
@@ -192,6 +164,10 @@ public class WebController {
         model.addAttribute("userData", userData);
         return "update-user-profile";
     }
+
+
+
+
 
 
 

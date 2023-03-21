@@ -17,7 +17,7 @@
 </head>
 
 <body class="index-body">
-<div th:include="header.html :: header"></div>
+<div th:insert="~{header.html :: header}"></div>
 
 <!--<script th:inline="javascript">-->
 <!--    const userId = localStorage.getItem("userId");-->
@@ -51,9 +51,11 @@
 <!--    <script>-->
 
 <!--        console.log(navigator.cookieEnabled);-->
-<!--        // document.cookie="userId = [[${userId}]]";-->
+<!--        document.cookie="userId = [[${userId}]]";-->
 <!--        console.log(document.cookie);-->
 <!--    </script>-->
+<!--    <h2>My id is <span id="myId"><script>-->
+<!--        document.getElementById("myId").innerText = console.log(document.cookie);</script></span></h2>-->
 
 <h2>
     <script>
