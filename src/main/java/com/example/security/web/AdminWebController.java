@@ -1,5 +1,6 @@
 package com.example.security.web;
 
+import com.example.security.auth.AuthenticationResponse;
 import com.example.security.repository.model.User;
 import com.example.security.responseBodyModel.UserData;
 import com.example.security.service.UserService;
@@ -51,5 +52,13 @@ public class AdminWebController {
         model.addAttribute("userData", userData);
         return "user-info";
 
+    }
+
+    @PostMapping("update-password")
+    public String updatePassword(Long userId){
+        String newPassword = userService.adminChangePassword(userId);
+        log.warn("Password was changed to {}", newPassword);
+        // implement sending new password in email or message
+        return "redirect:user-info?userId="+userId;
     }
 }

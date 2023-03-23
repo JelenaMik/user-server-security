@@ -19,8 +19,8 @@
 
     <h3>User data </h3> <ion-icon name="person"></ion-icon>
 
-    <div class="info-table">
-        <table class="user-info-table ">
+    <div class="user-table">
+        <table class="summary-table ">
             <thead>
             <tr>
                 <td>
@@ -56,6 +56,18 @@
             </thead>
 
         </table>
+        <h2>
+            <form action="update-password" method="post">
+                <input type="hidden" name="userId" th:value="${user.id}">
+                <button type="submit" onclick='showAlert();'>Change Password</button>
+            </form>
+
+            <script>
+                const showAlert = function () {
+                    alert("Password was updated");
+                };
+            </script>
+        </h2>
 
     </div>
 

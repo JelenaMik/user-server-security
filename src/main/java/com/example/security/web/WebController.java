@@ -55,8 +55,10 @@ public class WebController {
     public String fillLocalStorageValues(@PathVariable (value = "email") String email, Model model){
 
         Long userId = userService.getUserIdByEmail(email);
+        String role = userService.getUserRoleById(userId);
         UserData userData = restTemplate.getForObject("http://user-data-service/api/v1/userdata/get-data/"+userId,  UserData.class);
         model.addAttribute("email", email);
+        model.addAttribute("role", role);
         model.addAttribute("userData", userData);
 
         return "set-localstorage";

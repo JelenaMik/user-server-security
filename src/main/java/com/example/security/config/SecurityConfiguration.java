@@ -46,6 +46,7 @@ public class SecurityConfiguration {
                 .formLogin()
                 .loginPage("/login")
                 .loginProcessingUrl("/my-profile")
+                .failureUrl("/login")
 //                .defaultSuccessUrl("/my-profile", true)
                 .and()
                 .authenticationProvider(authenticationProvider)

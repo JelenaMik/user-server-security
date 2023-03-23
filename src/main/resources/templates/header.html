@@ -1,7 +1,9 @@
 <!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
 
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org">
+      xmlns:th="http://www.thymeleaf.org"
+      >
+<!--      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4" -->
 <head>
     <meta charset="UTF-8">
     <title>Header</title>
@@ -13,8 +15,10 @@
 <div th:fragment="header">
   <script th:inline="javascript">
     let email= localStorage.getItem("email");
+    let role= localStorage.getItem("role");
     let userDataText= localStorage.getItem("userData");
     let userData = JSON.parse(userDataText);
+
   </script>
 
   <div class="page-header">
@@ -32,10 +36,17 @@
     <div class="navigation-bar">
       <a class="nav-link" href="update-profile">Update profile information</a>
       <a class="nav-link" href="change-login-info">Change login information</a>
-      <a class="nav-link" >My appointments</a>
-      <a class="nav-link" href="admin-page">Admin options</a>
+      <a class="nav-link" href="my-appointments">My appointments</a>
+      <a id="admin" class="nav-link"  href="admin-page">Admin page</a>
+      <script >
+        if(role != "admin"){
+          document.getElementById('admin').style.display = 'none';}
+      </script>
+<!--      sec:authorize="hasRole('ADMIN')"-->
       <a class="nav-link" >Messages</a>
     </div>
+
+
 
   </div>
 </div>

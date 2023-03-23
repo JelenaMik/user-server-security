@@ -9,6 +9,7 @@ import com.example.security.repository.UserRepository;
 import com.example.security.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import com.example.security.repository.model.User;
@@ -81,6 +82,27 @@ public class UserServiceImpl implements UserService {
         log.info("email entered {}", email );
         if (StringUtils.hasText(email)) return userRepository.findFirst10ByEmailContaining(email);
         return userRepository.findFirst10ByOrderByIdAsc();
+    }
+    @Override
+    public String adminChangePassword( Long userId ){
+        String newPassword = autogeneratePassword();
+        User user = userRepository.findById(userId).orElseThrow(RuntimeException::new);
+        user.setPassword(passwordEncoder.encode(newPassword));
+        userRepository.save(user);
+        return newPassword;
+    }
+
+    private String autogeneratePassword(){
+        return  RandomStringUtils.randomGraph(8,16);
+
+    }
+
+    @Override
+    public String getUserRoleById(Long userId){
+        User user = userRepository.findById(userId).orElseThrow(UserNotFoundException::new);
+        String role = user.getRole().toString().toLowerCase();
+        log.info("users role is {}", role);
+        return role;
     }
 
 }

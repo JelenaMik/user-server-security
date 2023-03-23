@@ -113,9 +113,14 @@ pageContent{
 .nav-link{
     padding-top: 35px;
     padding-bottom: 35px;
+    text-decoration: none;
     float: left;
     display: block;
     border-radius: 15px;
+    padding-left: 10px;
+    padding-right: 5px;
+    color: #FCFFE7;
+    font-size: 16px;
 }
 
 .navigation-bar a:hover{
@@ -163,15 +168,8 @@ font-size: 40px;
     float: left;
     display: block;
     padding: 3px;
-
-}
-
-.nav-link{
-    padding-left: 10px;
-    padding-right: 5px;
-    color: #FCFFE7;
     text-decoration: none;
-    font-size: 16px;
+
 }
 
 .user-table{
@@ -183,20 +181,40 @@ font-size: 40px;
     color: black;
 }
 
-thead th {
+.user-table>.summary-table>thead th {
     background-color: #BAD7E9;
 }
 
-tbody tr:nth-child(even){
+.user-table>.summary-table>tbody tr:nth-child(even){
     background-color: aliceblue;
 }
-tbody tr:nth-child(odd){
+.user-table>.summary-table>tbody tr:nth-child(odd){
     background-color: #e7e6e6;
 }
 
-thead tr:nth-child(even){
+.user-table>.summary-table>thead tr:nth-child(even){
     background-color: aliceblue;
 }
-thead tr:nth-child(odd){
+.user-table>.summary-table>thead tr:nth-child(odd){
     background-color: #e7e6e6;
+}
+
+.calendar{
+    width: 100%;
+    align-content: center;
+    margin: 0 auto;
+    margin-top: 10px;
+    justify-content: center;
+    border-collapse: collapse;
+    color: black;
+}
+.calendar>.appointments{
+    width: 70%;
+}
+
+.calendar>.appointments>thead{
+    background-color: #EB455F;
+}
+.calendar>.appointments>tbody{
+    background-color: aliceblue;
 }

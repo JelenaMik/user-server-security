@@ -10,7 +10,9 @@
   <script th:inline="javascript">
       const activeUserEmail = [[${email}]];
       const userDataJson = [[${userData}]];
+      const activeUserRole = [[${role}]];
       localStorage.setItem("email", activeUserEmail);
+      localStorage.setItem("role", activeUserRole);
       localStorage.setItem("userData", JSON.stringify(userDataJson));
   </script>
   <link href="/styles/stylesheet.css" rel="stylesheet"/>

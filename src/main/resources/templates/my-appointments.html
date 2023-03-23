@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head  >
+  <meta charset="UTF-8">
+  <title>My profile</title>
+  <!--    <script th:inline="javascript">-->
+  <!--        if(!localStorage.getItem("userId") || !localStorage.getItem("userId") !== null){-->
+  <!--            const activeUserId = "5";-->
+  <!--            const activeUserName = "test";-->
+  <!--            localStorage.setItem("userId", activeUserId);-->
+  <!--            localStorage.setItem("userName", activeUserName)-->
+  <!--        }-->
+  <!--    </script>-->
+  <link href="/styles/stylesheet.css" rel="stylesheet"/>
+  <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+</head>
+
+<body class="index-body">
+<div th:insert="~{header.html :: header}"></div>
+
+<div class="pageContent centered-content">
+
+
+  <div class="calendar">
+
+
+    <table class="appointments">
+
+      <thead>
+      <tr>
+        <th>Mo</th>
+        <th>Tu</th>
+        <th>We</th>
+        <th>Th</th>
+        <th>Fr</th>
+        <th>Sa</th>
+        <th>Su</th>
+      </tr>
+      <thead>
+      <tbody >
+        <tr >
+         <th th:each="day : ${daysOfWeek}" th:text="${day}" ></th>
+       </tr>
+
+      <tr>
+        <td th:each="day : ${daysOfWeek}">8:00</td>
+      </tr>
+      <tr>
+        <td th:each="day : ${daysOfWeek}">9:00</td>
+      </tr>
+      <tr>
+        <td th:each="day : ${daysOfWeek}">10:00</td>
+
+      </tr>
+      <tr>
+        <td th:each="day : ${daysOfWeek}">11:00</td>
+
+      </tr>
+      <tr>
+        <td th:each="day : ${daysOfWeek}">12:00</td>
+
+      </tr>
+      <tr>
+        <td th:each="day : ${daysOfWeek}">13:00</td>
+
+      </tr>
+      <tr>
+        <td th:each="day : ${daysOfWeek}">14:00</td>
+
+      </tr>
+      <tr>
+        <td th:each="day : ${daysOfWeek}">15:00</td>
+
+      </tr>
+      <tr>
+        <td th:each="day : ${daysOfWeek}">16:00</td>
+
+      </tr>
+      <tr>
+        <td th:each="day : ${daysOfWeek}">17:00</td>
+
+      </tr>
+      <tr>
+        <td th:each="day : ${daysOfWeek}">18:00</td>
+
+      </tr>
+      </tbody>
+
+    </table>
+
+
+
+
+
+  </div>
+
+
+
+</div>
+
+<div class="footer">
+  <p>Personal project</p>
+</div>
+</body>
+</html>

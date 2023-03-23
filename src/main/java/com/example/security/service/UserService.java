@@ -20,4 +20,8 @@ public interface UserService {
     User getUserById(Long id);
 
     List<User> findUsersBySearching(String email);
+
+    String adminChangePassword(Long userId);
+
+    String getUserRoleById(Long userId);
 }
