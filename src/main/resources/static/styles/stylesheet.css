@@ -210,6 +210,8 @@ font-size: 40px;
 }
 .calendar>.appointments{
     width: 70%;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .calendar>.appointments>thead{
@@ -217,4 +219,7 @@ font-size: 40px;
 }
 .calendar>.appointments>tbody{
     background-color: aliceblue;
+}
+.calendar{
+    text-align: center;
 }

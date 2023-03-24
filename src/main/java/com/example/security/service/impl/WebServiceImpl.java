@@ -17,9 +17,9 @@ import java.util.stream.Collectors;
 public class WebServiceImpl implements WebService {
 
     @Override
-    public List<Integer> getListOfDates(){
-        LocalDate now = new LocalDate();
-        LocalDate monday = now.withDayOfWeek(DateTimeConstants.MONDAY);
+    public List<Integer> getListOfDates(Integer week){
+//        if (week.equals(null)) week= new LocalDate().getWeekOfWeekyear();
+        LocalDate monday = new LocalDate().withWeekOfWeekyear(week).withDayOfWeek(DateTimeConstants.MONDAY);
 
         List<LocalDate> currentWeek = new ArrayList<>();
         for(int i=0; i<7; i++){
@@ -30,5 +30,19 @@ public class WebServiceImpl implements WebService {
                 .map( date -> date.getDayOfMonth() )
                 .collect(Collectors.toList());
         return days;
+    }
+
+    @Override
+    public String getMonth(Integer week){
+        return new LocalDate().withWeekOfWeekyear(week).withDayOfWeek(DateTimeConstants.MONDAY).monthOfYear().getAsText();
+    }
+
+    @Override
+    public Integer getYear(Integer week){
+        return new LocalDate().withWeekOfWeekyear(week).withDayOfWeek(DateTimeConstants.MONDAY).getYear();
+    }
+    @Override
+    public Integer getMonthNumber(Integer week){
+        return new LocalDate().withWeekOfWeekyear(week).withDayOfWeek(DateTimeConstants.MONDAY).getMonthOfYear();
     }
 }

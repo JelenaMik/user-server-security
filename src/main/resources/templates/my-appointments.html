@@ -24,7 +24,14 @@
 
   <div class="calendar">
 
+  <h2 > <span th:text="${month}"></span>,&nbsp<span th:text="${year}"></span></h2>
+    <script th:inline="javascript">
 
+
+      const month = [[${month}]];
+      const year = [[${year}]];
+      const monthNr = [[${monthNr}]];
+    </script>
     <table class="appointments">
 
       <thead>
@@ -39,12 +46,14 @@
       </tr>
       <thead>
       <tbody >
-        <tr >
+        <tr style="background-color: #EB455F">
          <th th:each="day : ${daysOfWeek}" th:text="${day}" ></th>
        </tr>
 
       <tr>
-        <td th:each="day : ${daysOfWeek}">8:00</td>
+        <td  th:each="day : ${daysOfWeek}" ><span id ="hour8"></span> <script th:inline="javascript"> document.getElementById("hour8").innerText = monthNr</script>8:00</td>
+<script>new Date(year, monthNr, 1).toString()</script>
+<!--        new Date(year, 3, 22, 8).toString(-->
       </tr>
       <tr>
         <td th:each="day : ${daysOfWeek}">9:00</td>

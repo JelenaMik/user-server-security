@@ -23,10 +23,10 @@
 
   <div class="page-header">
     <nav class="logout-ion">
-      <a class="link" href="my-profile">
+      <a class="link" href="/my-profile">
         <ion-icon name="home"></ion-icon>
       </a>
-      <a class="link" href="logout">
+      <a class="link" href="/logout">
         <ion-icon name="log-out-outline"></ion-icon>
       </a>
       <p>Hello, <span id="headerName"><script>
@@ -34,16 +34,38 @@
       <!--        <span th:text="${firstName}"></span>-->
     </nav>
     <div class="navigation-bar">
-      <a class="nav-link" href="update-profile">Update profile information</a>
-      <a class="nav-link" href="change-login-info">Change login information</a>
-      <a class="nav-link" href="my-appointments">My appointments</a>
-      <a id="admin" class="nav-link"  href="admin-page">Admin page</a>
+      <a class="nav-link" href="/update-profile">Update profile information</a>
+      <a class="nav-link" href="/change-login-info">Change login information</a>
+      <a class="nav-link" >Messages</a>
+      <a id="admin" class="nav-link"  href="/admin-page">Admin page</a>
       <script >
         if(role != "admin"){
           document.getElementById('admin').style.display = 'none';}
       </script>
-<!--      sec:authorize="hasRole('ADMIN')"-->
-      <a class="nav-link" >Messages</a>
+
+
+    </div>
+
+    <div>
+      <!--&lt;!&ndash;      http://localhost:8101/my-appointments/admin/6/my-profile.html&ndash;&gt;-->
+      <!--      <a class="link" href="my-profile">my profile</a>-->
+      <!--&lt;!&ndash;      http://localhost:8101/my-appointments/admin/6/my-profile.html&ndash;&gt;-->
+      <!--      <a class="link" href="./my-profile">my profile</a>-->
+      <!--&lt;!&ndash;      http://localhost:8101/my-profile.html&ndash;&gt;-->
+      <!--      <a class="link" href="/my-profile">my profile</a>-->
+      <!--&lt;!&ndash;      http://localhost:8101/my-appointments/admin/my-profile.html&ndash;&gt;-->
+      <!--      <a class="link" href="../my-profile">my profile</a>-->
+
+      <form method="post" action="/collect-appointment-data">
+        <input type="hidden" name="role"  id="set-role" value=""> <script>document.getElementById('set-role').value = role</script>
+        <input type="hidden" name="userId"  id="set-userId" value=""> <script>document.getElementById('set-userId').value = userData.userId</script>
+        <button type="submit">to appointments</button>
+<!--        <a class="nav-link" href="my-appointments">My appointments</a>-->
+
+      </form>
+
+
+      <!--      sec:authorize="hasRole('ADMIN')"-->
     </div>
 
 
