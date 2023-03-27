@@ -26,10 +26,10 @@ public class WebServiceImpl implements WebService {
             currentWeek.add(monday.plusDays(i));
         }
 
-        List<Integer> days = currentWeek.stream()
-                .map( date -> date.getDayOfMonth() )
-                .collect(Collectors.toList());
-        return days;
+        return currentWeek.stream()
+                .map(LocalDate::getDayOfMonth)
+                .toList();
+
     }
 
     @Override

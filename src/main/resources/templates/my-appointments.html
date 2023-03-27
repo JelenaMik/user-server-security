@@ -2,15 +2,7 @@
 <html lang="en">
 <head  >
   <meta charset="UTF-8">
-  <title>My profile</title>
-  <!--    <script th:inline="javascript">-->
-  <!--        if(!localStorage.getItem("userId") || !localStorage.getItem("userId") !== null){-->
-  <!--            const activeUserId = "5";-->
-  <!--            const activeUserName = "test";-->
-  <!--            localStorage.setItem("userId", activeUserId);-->
-  <!--            localStorage.setItem("userName", activeUserName)-->
-  <!--        }-->
-  <!--    </script>-->
+  <title>My appointments</title>
   <link href="/styles/stylesheet.css" rel="stylesheet"/>
   <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
   <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
@@ -32,74 +24,87 @@
       const year = [[${year}]];
       const monthNr = [[${monthNr}]];
     </script>
+
+    <table class="appointments">
+      <thead>
+      <tr style="background-color: #EB455F">
+        <th th:text="${daysOfWeek[0]}" ></th><th>Mo</th>
+        <th th:text="${daysOfWeek[1]}"></th><th>Tu</th>
+        <th th:text="${daysOfWeek[2]}"></th><th>We</th>
+        <th th:text="${daysOfWeek[3]}"></th><th>Th</th>
+        <th th:text="${daysOfWeek[4]}"></th><th>Fr</th>
+        <th th:text="${daysOfWeek[5]}"></th><th>Sa</th>
+        <th th:text="${daysOfWeek[6]}"></th><th>Su</th>
+      </tr>
+
+
+      <thead>
+    </table>
+    <br><br>
+
     <table class="appointments">
 
-      <thead>
-      <tr>
-        <th>Mo</th>
-        <th>Tu</th>
-        <th>We</th>
-        <th>Th</th>
-        <th>Fr</th>
-        <th>Sa</th>
-        <th>Su</th>
-      </tr>
-      <thead>
+      <form action="/view-appointment" method="post" id="see-app"></form>
+
       <tbody >
-        <tr style="background-color: #EB455F">
-         <th th:each="day : ${daysOfWeek}" th:text="${day}" ></th>
-       </tr>
+      <tr th:each="appointment : ${appointmentList}" id="appointmentId" th:style="${appointment.clientId}  == null ? 'background: green' : 'background: red'">
+        <td  >
+          <input type="hidden" name="appointmentId" th:value="${appointment.appointmentId}" form="see-app">
+          <button type="submit" th:text="${appointment.startTime}" form="see-app">See Appointment</button>
+          </td>
 
-      <tr>
-        <td  th:each="day : ${daysOfWeek}" ><span id ="hour8"></span> <script th:inline="javascript"> document.getElementById("hour8").innerText = monthNr</script>8:00</td>
-<script>new Date(year, monthNr, 1).toString()</script>
-<!--        new Date(year, 3, 22, 8).toString(-->
-      </tr>
-      <tr>
-        <td th:each="day : ${daysOfWeek}">9:00</td>
-      </tr>
-      <tr>
-        <td th:each="day : ${daysOfWeek}">10:00</td>
+
 
       </tr>
-      <tr>
-        <td th:each="day : ${daysOfWeek}">11:00</td>
 
-      </tr>
-      <tr>
-        <td th:each="day : ${daysOfWeek}">12:00</td>
+<!--      <tr>-->
+<!--        <td  th:each="day : ${daysOfWeek}" >-->
+<!--          <span id ="hour8">-->
+<!--          </span> 8:00</td>-->
 
-      </tr>
-      <tr>
-        <td th:each="day : ${daysOfWeek}">13:00</td>
+<!--      </tr>-->
+<!--      <tr>-->
+<!--        <td th:each="day : ${daysOfWeek}">9:00</td>-->
+<!--      </tr>-->
+<!--      <tr>-->
+<!--        <td th:each="day : ${daysOfWeek}">10:00</td>-->
 
-      </tr>
-      <tr>
-        <td th:each="day : ${daysOfWeek}">14:00</td>
+<!--      </tr>-->
+<!--      <tr>-->
+<!--        <td th:each="day : ${daysOfWeek}">11:00</td>-->
 
-      </tr>
-      <tr>
-        <td th:each="day : ${daysOfWeek}">15:00</td>
+<!--      </tr>-->
+<!--      <tr>-->
+<!--        <td th:each="day : ${daysOfWeek}">12:00</td>-->
 
-      </tr>
-      <tr>
-        <td th:each="day : ${daysOfWeek}">16:00</td>
+<!--      </tr>-->
+<!--      <tr>-->
+<!--        <td th:each="day : ${daysOfWeek}">13:00</td>-->
 
-      </tr>
-      <tr>
-        <td th:each="day : ${daysOfWeek}">17:00</td>
+<!--      </tr>-->
+<!--      <tr>-->
+<!--        <td th:each="day : ${daysOfWeek}">14:00</td>-->
 
-      </tr>
-      <tr>
-        <td th:each="day : ${daysOfWeek}">18:00</td>
+<!--      </tr>-->
+<!--      <tr>-->
+<!--        <td th:each="day : ${daysOfWeek}">15:00</td>-->
 
-      </tr>
+<!--      </tr>-->
+<!--      <tr>-->
+<!--        <td th:each="day : ${daysOfWeek}">16:00</td>-->
+
+<!--      </tr>-->
+<!--      <tr>-->
+<!--        <td th:each="day : ${daysOfWeek}">17:00</td>-->
+
+<!--      </tr>-->
+<!--      <tr>-->
+<!--        <td th:each="day : ${daysOfWeek}">18:00</td>-->
+
+<!--      </tr>-->
       </tbody>
 
     </table>
-
-
-
 
 
   </div>

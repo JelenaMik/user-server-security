@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head  >
+    <meta charset="UTF-8">
+    <title>My appointments</title>
+    <link href="/styles/stylesheet.css" rel="stylesheet"/>
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+</head>
+
+<body class="index-body">
+<div th:insert="~{header.html :: header}"></div>
+
+<div class="pageContent centered-content">
+
+    <div class="login-form">
+        <h3>Appointment</h3>
+
+<table>
+    <tbody>
+    <tr style="background-color: #EB455F">
+        <th>Provider</th>
+        <td th:text="${providerData.firstName}+${providerData.lastName}" ></td>
+        </tr>
+    <tr>
+        <th>Client</th>
+        <td th:text="${clientData.firstName}+${clientData.lastName}"></td>
+    </tr>
+    <tr>
+        <th>Time</th>
+        <td th:text="${appointment.startTime}"></td>
+        </tr>
+    <tr>
+        <th>Type</th>
+        <td th:text="${appointment.appointmentType}"></td>
+    </tr>
+        <tr>
+        <th>Details</th>
+            <td th:text="${appointment.details}"></td>
+        </tr>
+    <tr>
+        <th>Created</th>
+        <td th:text="${appointmentDetails.created}"></td>
+
+    </tr>
+    <tr>
+        <th>Status</th>
+        <td th:text="${appointmentDetails.status}"></td>
+    </tr>
+    </tbody>
+
+</table>
+
+    </div>
+
+
+</div>
+
+<div class="footer">
+    <p>Personal project</p>
+</div>
+</body>
+</html>
