@@ -16,10 +16,10 @@
     <div class="login-form">
         <h3>Appointment</h3>
 
-<table>
+<table class="appointment">
     <tbody>
-    <tr style="background-color: #EB455F">
-        <th>Provider</th>
+    <tr >
+        <th >Provider</th>
         <td th:text="${providerData.firstName}+${providerData.lastName}" ></td>
         </tr>
     <tr>
@@ -33,6 +33,16 @@
     <tr>
         <th>Type</th>
         <td th:text="${appointment.appointmentType}"></td>
+        <td>
+        <form th:action="@{ '/change-app-type/' + ${appointment.appointmentId} }" method="post">
+
+            <select  name="appointmentType" >
+                <option value="online" >online</option>
+                <option value="office">in office</option>
+            </select>
+            <button type="submit">Change</button>
+        </form>
+        </td>
     </tr>
         <tr>
         <th>Details</th>
@@ -46,7 +56,17 @@
     <tr>
         <th>Status</th>
         <td th:text="${appointmentDetails.status}"></td>
+
+
+        <td   >
+
+            <form  th:action="@{ '/change-app-status/' + ${appointment.appointmentId} }" th:method="post" >
+                <button id="button" type="submit"><ion-icon  name="checkmark-sharp"></ion-icon> Finished?</button>
+            </form>
+
+        </td>
     </tr>
+
     </tbody>
 
 </table>
@@ -56,8 +76,6 @@
 
 </div>
 
-<div class="footer">
-    <p>Personal project</p>
-</div>
+<div th:insert="~{footer.html :: footer}"></div>
 </body>
 </html>

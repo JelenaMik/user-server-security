@@ -8,7 +8,6 @@ import com.example.security.service.UserService;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,8 +32,7 @@ public class UserController {
     public static final String USER_SERVICE = "userService";
     private final UserService userService;
     private final AuthenticationService service;
-    @Autowired
-    private RestTemplate restTemplate;
+    private final RestTemplate restTemplate;
 
     //    Testing
     @GetMapping("/hi")

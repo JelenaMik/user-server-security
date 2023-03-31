@@ -56,12 +56,11 @@
       <!--&lt;!&ndash;      http://localhost:8101/my-appointments/admin/my-profile.html&ndash;&gt;-->
       <!--      <a class="link" href="../my-profile">my profile</a>-->
 
-      <form method="post" action="/collect-appointment-data">
+      <form class="nav-link" method="post" action="/collect-appointment-data">
         <input type="hidden" name="role"  id="set-role" value=""> <script>document.getElementById('set-role').value = role</script>
         <input type="hidden" name="userId"  id="set-userId" value=""> <script>document.getElementById('set-userId').value = userData.userId</script>
-        <button type="submit">to appointments</button>
+        <button class="header-button" type="submit">My appointments</button>
 <!--        <a class="nav-link" href="my-appointments">My appointments</a>-->
-
       </form>
 
 

@@ -1,11 +1,10 @@
 package com.example.security.service;
 
+import com.example.security.auth.AuthenticationRequest;
 import com.example.security.auth.AuthenticationResponse;
 import com.example.security.repository.model.User;
-import com.example.security.responseBodyModel.UserData;
 
 import java.util.List;
-import java.util.Map;
 
 public interface UserService {
     public AuthenticationResponse changePassword(Long userId, String password);
@@ -21,7 +20,14 @@ public interface UserService {
 
     List<User> findUsersBySearching(String email);
 
+
+    List<User> findProvidersBySearching();
+
+    Boolean isUserDataProvider(Long userId);
+
     String adminChangePassword(Long userId);
 
     String getUserRoleById(Long userId);
+
+    String getTokenAfterAuthentication(AuthenticationRequest request);
 }

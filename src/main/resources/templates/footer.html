@@ -1,0 +1,29 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      >
+<!--      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4" -->
+<head>
+    <meta charset="UTF-8">
+    <title>Header</title>
+  <link href="/styles/stylesheet.css" rel="stylesheet"/>
+</head>
+<body>
+
+<div class="footer" th:fragment="footer">
+  <p id="footer">
+    <script>
+      let today = new Date();
+      const dd = String(today.getDate()).padStart(2, '0');
+      const mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+      const yyyy = today.getFullYear();
+
+      today = mm + '/' + dd + '/' + yyyy;
+      document.write(today);
+    </script>
+  </p>
+</div>
+
+</body>
+</html>

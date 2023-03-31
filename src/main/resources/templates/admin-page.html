@@ -16,9 +16,10 @@
 
 
   <div class="pageContent centered-content">
+    <br>
 
     <div>
-      <h2>Search for users by email</h2>
+      <h2>Search users by email</h2>
       <form action="search-users" method="post">
         <input class="input" name="emailEntered">
         <button type="submit" >Submit</button>
@@ -61,8 +62,6 @@
 
 </div>
 
-<div class="footer">
-  <p>Personal project</p>
-</div>
+<div th:insert="~{footer.html :: footer}"></div>
 </body>
 </html>

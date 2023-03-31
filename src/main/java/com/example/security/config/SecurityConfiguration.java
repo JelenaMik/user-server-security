@@ -38,17 +38,18 @@ public class SecurityConfiguration {
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
-//                .formLogin(form -> form
-//                        .loginPage("/login")
-////                        .loginProcessingUrl("api/v1/user/authenticate")
-//                        .defaultSuccessUrl("/my-profile", true)
-//                        .permitAll())
-                .formLogin()
-                .loginPage("/login")
-                .loginProcessingUrl("/my-profile")
-                .failureUrl("/login")
-//                .defaultSuccessUrl("/my-profile", true)
-                .and()
+                .formLogin(form -> form
+                        .loginPage("/login")
+//                        .loginProcessingUrl("api/v1/user/authenticate")
+                        .defaultSuccessUrl("/my-profile", true)
+                        .permitAll())
+
+//                .formLogin()
+//                .loginPage("/login")
+//                .loginProcessingUrl("/my-profile")
+//                .failureUrl("/login")
+//                .and()
+
                 .authenticationProvider(authenticationProvider)
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
 

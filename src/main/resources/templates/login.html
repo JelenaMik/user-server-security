@@ -18,14 +18,15 @@
 <!--        <form class="login-form" method="post" action="/api/v1/user/authenticate" > this works-->
 
 
-        <form class="login-form" method="post" action="/login-process" >
+        <form class="login-form" method="post" th:action="@{/login-process}"
+        th:object="${authenticationRequest}">
             <h2>Please login</h2>
             <div>
-                <input class="input" name="email" type="email" placeholder = "Enter your email"/>
+                <input class="input"  th:field="*{email}" type="email" placeholder = "Enter your email"/>
 
             </div>
             <div>
-                <input class="input" name="password" type="password" placeholder = "Enter your password"/>
+                <input class="input"  th:field="*{password}" type="password" placeholder = "Enter your password"/>
             </div>
             <div>
                 <button class="login-button" type="submit">Login</button><br>
@@ -42,9 +43,7 @@
 
 </div>
 
-<div class="footer">
-    <p>Personal project</p>
-</div>
+<div th:insert="~{footer.html :: footer}"></div>
 
 
 </body>

@@ -3,6 +3,7 @@
 <head  >
   <meta charset="UTF-8">
   <title>My appointments</title>
+  <link rel="icon" type="image/x-icon" href="/image/favicon.png">
   <link href="/styles/stylesheet.css" rel="stylesheet"/>
   <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
   <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
@@ -11,30 +12,50 @@
 <body class="index-body">
 <div th:insert="~{header.html :: header}"></div>
 
+
+<br>
+
 <div class="pageContent centered-content">
+
+
 
 
   <div class="calendar">
 
   <h2 > <span th:text="${month}"></span>,&nbsp<span th:text="${year}"></span></h2>
     <script th:inline="javascript">
-
-
-      const month = [[${month}]];
-      const year = [[${year}]];
-      const monthNr = [[${monthNr}]];
+      let week = [[${week}]]
+      const weekMinus = Math.floor(week - 1);
+      const weekPlus = Math.floor(week + 1);
+      const linkMinus = '/my-appointments/' + role + '/' + userData.userId + '/' + weekMinus;
+      const linkPlus = '/my-appointments/' + role + '/' + userData.userId + '/' + weekPlus;
     </script>
 
     <table class="appointments">
       <thead>
       <tr style="background-color: #EB455F">
-        <th th:text="${daysOfWeek[0]}" ></th><th>Mo</th>
-        <th th:text="${daysOfWeek[1]}"></th><th>Tu</th>
-        <th th:text="${daysOfWeek[2]}"></th><th>We</th>
-        <th th:text="${daysOfWeek[3]}"></th><th>Th</th>
-        <th th:text="${daysOfWeek[4]}"></th><th>Fr</th>
-        <th th:text="${daysOfWeek[5]}"></th><th>Sa</th>
-        <th th:text="${daysOfWeek[6]}"></th><th>Su</th>
+
+        <th>
+          </a>
+          <a id="previous-week" href="">
+            <script>document.getElementById("previous-week").href=linkMinus</script>
+            <ion-icon name="arrow-back-circle-sharp"></ion-icon>
+          </a>
+        </th>
+
+        <th ><span th:text="${daysOfWeek[0]}"></span> Mo</th>
+        <th ><span th:text="${daysOfWeek[1]}"></span> Tu</th>
+        <th ><span th:text="${daysOfWeek[2]}"></span> We</th>
+        <th ><span th:text="${daysOfWeek[3]}"></span> Th</th>
+        <th ><span th:text="${daysOfWeek[4]}"></span> Fr</th>
+        <th ><span th:text="${daysOfWeek[5]}"></span> Sa</th>
+        <th ><span th:text="${daysOfWeek[6]}"></span> Su</th>
+        <th>
+          <a id="next-week" href="">
+            <script>document.getElementById("next-week").href=linkPlus</script>
+            <ion-icon name="arrow-forward-circle-sharp"></ion-icon>
+          </a>
+        </th>
       </tr>
 
 
@@ -42,18 +63,26 @@
     </table>
     <br><br>
 
-    <table class="appointments">
-
-      <form action="/view-appointment" method="post" id="see-app"></form>
+    <table id="appointment-table" class="appointments-entries">
 
       <tbody >
-      <tr th:each="appointment : ${appointmentList}" id="appointmentId" th:style="${appointment.clientId}  == null ? 'background: green' : 'background: red'">
-        <td  >
-          <input type="hidden" name="appointmentId" th:value="${appointment.appointmentId}" form="see-app">
-          <button type="submit" th:text="${appointment.startTime}" form="see-app">See Appointment</button>
-          </td>
+      <tr th:each="appointment : ${appointmentList}" id="appointmentId" th:style="${appointment.clientId}  == null ? 'background: #B6E79FFF' : 'background: #CBBFC2FF'">
 
+        <td>
+          <a th:href="@{'/appointment/' + ${appointment.appointmentId}}"> <p th:text="${appointment.startTime}"></p> </a>
+        </td>
 
+        <td>
+          <form th:action="@{ '/delete-appointment/' + ${appointment.appointmentId} }" method="post">
+            <input type="hidden" name="role"  id="set-role" th:value="${role}">
+            <input type="hidden" name="userId"  id="set-userId" th:value="${userId}">
+            <input type="hidden" name="week"  id="set-week" th:value="${week}">
+            <button type="submit">
+              <ion-icon title="Delete this appointment!" name="trash-sharp"></ion-icon>
+            </button>
+
+          </form>
+        </td>
 
       </tr>
 
@@ -106,15 +135,13 @@
 
     </table>
 
-
   </div>
 
 
 
 </div>
 
-<div class="footer">
-  <p>Personal project</p>
-</div>
+<div th:insert="~{footer.html :: footer}"></div>
+
 </body>
 </html>

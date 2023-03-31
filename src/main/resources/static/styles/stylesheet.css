@@ -6,7 +6,7 @@
     text-align: center;
     background: #2B3467;
     color: #FCFFE7;
-    font-size: 30px;
+    font-size: 20px;
 }
 .login-header{
 
@@ -22,6 +22,7 @@
 }
 
 pageContent{
+    min-height: 40rem;
     background-color: #FCFFE7;
 }
 .login-body{
@@ -123,6 +124,28 @@ pageContent{
     font-size: 16px;
 }
 
+.header-button{
+    border-style: none;
+    background-color: #2B3467;
+    font-weight: bold;
+    font-size: 16px;
+    /*padding-top: 35px;*/
+    padding-bottom: 35px;
+    text-decoration: none;
+    float: left;
+    display: block;
+    border-radius: 15px;
+    padding-left: 10px;
+    padding-right: 5px;
+    color: #FCFFE7;
+}
+
+.header-button:hover {
+    background-color: #FCFFE7;
+    font-weight: bold;
+    color: black;
+}
+
 .navigation-bar a:hover{
     background-color: #FCFFE7;
     color: black;
@@ -131,6 +154,7 @@ pageContent{
 
 .centered-content{
     margin: auto;
+    padding-bottom: 120px;
 }
 
 .login-form{
@@ -149,7 +173,7 @@ pageContent{
 }
 .login-button{
     border-radius: 4px;
-    background-color: #2ec5ff;
+    background-color: #cbbfc2;
     padding: 5px;
 }
 
@@ -199,6 +223,15 @@ font-size: 40px;
     background-color: #e7e6e6;
 }
 
+.appointment>tbody tr:nth-child(odd){
+    background-color: #e7e6e6;
+}
+.appointment>tbody tr:nth-child(even){
+    background-color: aliceblue;
+}
+
+
+
 .calendar{
     width: 100%;
     align-content: center;
@@ -209,7 +242,12 @@ font-size: 40px;
     color: black;
 }
 .calendar>.appointments{
-    width: 70%;
+    width: 50%;
+    margin-left: auto;
+    margin-right: auto;
+}
+.appointments-entries{
+    width: 40%;
     margin-left: auto;
     margin-right: auto;
 }
@@ -222,4 +260,32 @@ font-size: 40px;
 }
 .calendar{
     text-align: center;
+}
+.appointments-entries>tbody>tr>td>a{
+    text-decoration: none;
+    color: black;
+}
+
+.appointments-entries>tbody>tr>td a:hover{
+    font-weight: bold;
+}
+.new-appointment{
+    display: block;
+    border-radius: 5px;
+    background-color: #BAD7E9;
+    width: 20rem;
+}
+
+.new-appointment>a{
+    text-decoration: none;
+    color: black;
+    font-size: 18px;
+    display: block;
+    padding: 15px;
+
+}
+
+.new-appointment a:hover{
+    font-weight: bold;
+
 }

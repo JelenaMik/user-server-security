@@ -1,5 +1,6 @@
 package com.example.security.service.impl;
 
+import com.example.security.auth.AuthenticationRequest;
 import com.example.security.auth.AuthenticationResponse;
 import com.example.security.config.JwtService;
 import com.example.security.enums.Role;
@@ -14,8 +15,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import com.example.security.repository.model.User;
 import org.springframework.util.StringUtils;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
+import java.util.Optional;
 
 @Log4j2
 @RequiredArgsConstructor
@@ -24,6 +27,7 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
+    private final RestTemplate restTemplate;
 
     @Override
     public AuthenticationResponse changePassword(Long userId, String password) {
@@ -61,7 +65,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Long getUserIdByEmail(String email) {
-        return userRepository.findByEmail(email).get().getId();
+        Optional<User> user = userRepository.findByEmail(email);
+        if(user.isPresent()) return user.get().getId();
+        else throw new UserNotFoundException();
     }
 
     @Override
@@ -83,6 +89,21 @@ public class UserServiceImpl implements UserService {
         if (StringUtils.hasText(email)) return userRepository.findFirst10ByEmailContaining(email);
         return userRepository.findFirst10ByOrderByIdAsc();
     }
+
+    @Override
+    public List<User> findProvidersBySearching(){
+        return userRepository.findFirst10ByRole(Role.PROVIDER);
+
+    }
+
+    @Override
+    public Boolean isUserDataProvider(Long userId){
+        User user = userRepository.findById(userId).orElseThrow(UserNotFoundException::new);
+        log.info("is User Data Provider {}", user);
+        return user.getRole().equals(Role.PROVIDER);
+    }
+
+
     @Override
     public String adminChangePassword( Long userId ){
         String newPassword = autogeneratePassword();
@@ -104,5 +125,12 @@ public class UserServiceImpl implements UserService {
         log.info("users role is {}", role);
         return role;
     }
+
+    @Override
+    public String getTokenAfterAuthentication(AuthenticationRequest request){
+        AuthenticationResponse response = restTemplate.postForObject("http://security-service/api/v1/user/authenticate", request,  AuthenticationResponse.class);
+        return response.getToken();
+    }
+
 
 }

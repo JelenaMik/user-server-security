@@ -3,14 +3,6 @@
 <head  >
     <meta charset="UTF-8">
     <title>My profile</title>
-<!--    <script th:inline="javascript">-->
-<!--        if(!localStorage.getItem("userId") || !localStorage.getItem("userId") !== null){-->
-<!--            const activeUserId = "5";-->
-<!--            const activeUserName = "test";-->
-<!--            localStorage.setItem("userId", activeUserId);-->
-<!--            localStorage.setItem("userName", activeUserName)-->
-<!--        }-->
-<!--    </script>-->
     <link href="/styles/stylesheet.css" rel="stylesheet"/>
     <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
@@ -21,8 +13,16 @@
 
 <div class="pageContent centered-content">
 
-
-<h2>Here goes information about upcoming appointments</h2>
+<br><br>
+    <div id="create-new-appointment" class="new-appointment">
+        <a id="new-app" href="">Create new appointment <ion-icon name="today-sharp"></ion-icon>
+            <script>document.getElementById("new-app").href='/new-appointment/' + userData.userId ;</script>
+        </a>
+    </div>
+    <script >
+        if(role != "provider"){
+            document.getElementById('create-new-appointment').style.display = 'none';}
+    </script>
 
 <!--    <h2>My name is <span id="name"><script>-->
 <!--        document.getElementById("name").innerText = JSON.stringify(userData.id);</script></span></h2>-->
@@ -47,11 +47,60 @@
     </script>
 </h2>
 
+
+
+    <div id="client-view">
+    <div>
+        <h2>Search for providers by name</h2>
+        <form action="/search-providers" method="post">
+            <input class="input" name="firstName">
+            <button type="submit" >Submit</button>
+        </form>
+    </div>
+
+    <div class="user-table">
+        <table class="summary-table">
+            <thead>
+            <tr>
+                <th>First name</th>
+                <th>Last Name</th>
+                <th>Registration Date</th>
+                <!--                <th>Role</th>-->
+                <!--      <th>isActive</th>-->
+                <th>Action</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            <tr th:each="provider : ${providerList}">
+                <form action="/see-provider-appointments" method="post">
+                    <td th:text="${provider.firstName}" ></td>
+                    <td th:text="${provider.lastName}" ></td>
+                    <td th:text="${provider.registrationDate}" ></td>
+                    <input type="hidden" name="id" th:value="${provider.userId}">
+                    <td><button class="submit-btn" type="submit">See apointments</button></td>
+                </form>
+
+            </tr>
+            </tbody>
+
+        </table>
+    </div>
+    </div>
+    <script >
+        if(role != "client"){
+            document.getElementById('client-view').style.display = 'none';}
+    </script>
+
+
+
+
+
+
+
 </div>
 
-<div class="footer">
-    <p>Personal project</p>
-</div>
+<div th:insert="~{footer.html :: footer}"></div>
 
 </body>
 </html>

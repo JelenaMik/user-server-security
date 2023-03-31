@@ -6,31 +6,22 @@ import com.example.security.auth.AuthenticationService;
 import com.example.security.auth.RegisterRequest;
 import com.example.security.repository.model.User;
 import com.example.security.responseBodyModel.UserData;
+import com.example.security.service.UserDataService;
 import com.example.security.service.UserService;
-import com.google.common.cache.CacheBuilder;
-import com.google.common.cache.CacheLoader;
-import com.google.common.cache.LoadingCache;
-import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import io.github.resilience4j.retry.annotation.Retry;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.client.RestTemplate;
 
-import java.time.LocalDateTime;
-import java.util.concurrent.TimeUnit;
+import java.util.List;
+import java.util.Objects;
 
 @Controller
 @Log4j2
@@ -38,54 +29,71 @@ import java.util.concurrent.TimeUnit;
 @RequestMapping
 public class WebController {
 
-    @Autowired
-    private RestTemplate restTemplate;
-
     private final UserService userService;
     private final AuthenticationService service;
 
+    private final UserDataService userDataService;
+
+
     @GetMapping("/my-profile")
-    public String loginSuccess() {
+    public String loginSuccess(@RequestParam(required = false) String string, Model model){
+
+        List<UserData> providerList;
+        if (Objects.equals(string, "")) string="";
+
+        if (StringUtils.hasText(string)){
+            providerList = userDataService.getProviderListIfSearchingStringHasText(string);
+            log.info("List is {}", providerList);
+        }
+        else{
+            providerList = userDataService.getProviderListIfSearchingStringIsEmpty();
+            log.info("List is {}", providerList);
+        }
+        model.addAttribute("providerList", providerList);
         return "my-profile";
+
     }
+
+
+    @PostMapping("/search-providers")
+    public String searchProviders(String firstName){
+        return "redirect:my-profile?string="+firstName;
+    }
+
 
     @GetMapping("/set-localstorage/{email}")
 //    @CircuitBreaker(name = "user-data-service", fallbackMethod = "defaultData")
-    @Retry(name="user-data-service", fallbackMethod = "defaultData")
+//    Retry doesn't for properly after provider search was implemented.
+//    @Retry(name="user-data-service", fallbackMethod = "defaultData")
     public String fillLocalStorageValues(@PathVariable (value = "email") String email, Model model){
 
         Long userId = userService.getUserIdByEmail(email);
         String role = userService.getUserRoleById(userId);
-        UserData userData = restTemplate.getForObject("http://user-data-service/api/v1/userdata/get-data/"+userId,  UserData.class);
+        UserData userData = userDataService.getUserDataByUserId(userId);
         model.addAttribute("email", email);
         model.addAttribute("role", role);
         model.addAttribute("userData", userData);
 
         return "set-localstorage";
     }
-    public String defaultData(String email, Model model, Exception e){
-        Long userId = userService.getUserIdByEmail(email);
-        model.addAttribute("email", email);
-        model.addAttribute("userData", new UserData(null, userId, "first Name", "last Name", LocalDateTime.now()));
-        return "set-localstorage";
-    }
+//    public String defaultData(String email, Model model, Exception e){
+//        Long userId = userService.getUserIdByEmail(email);
+//        model.addAttribute("email", email);
+//        model.addAttribute("userData", new UserData(null, userId, "first Name", "last Name", LocalDateTime.now()));
+//        return "set-localstorage";
+//    }
 
-    @GetMapping("/authenticate")
-    public String returnPage(){
-        return "authenticate";
-    }
+
 
     @PostMapping("/login-process")
     @Retry(name="security-service")
-    public String authenticate(
-            String email, String password
-    ) {
-        AuthenticationRequest request = new AuthenticationRequest(email, password);
+    public String authenticate( AuthenticationRequest authenticationRequest ) {
         try{
-
-            AuthenticationResponse response = restTemplate.postForObject("http://security-service/api/v1/user/authenticate", request,  AuthenticationResponse.class);
-            return "redirect:set-localstorage/"+email;}
-        catch (Exception e){return "redirect:login?status=user_not_found";}
+            userService.getTokenAfterAuthentication(authenticationRequest);
+            return "redirect:set-localstorage/"+authenticationRequest.getEmail();}
+        catch (Exception e){
+            return "redirect:login?status=user_not_found";
+        }
     }
 
     @GetMapping("/register")
@@ -97,7 +105,7 @@ public class WebController {
     @PostMapping("/register")
     public String completeRegistration(User user){
         var request = new RegisterRequest(user.getEmail(), user.getPassword());
-        AuthenticationResponse response = service.register(request);
+        var response = service.register(request);
         if (response!=null) {
             Long userId = userService.
                     getUserIdByEmail(user.getEmail());
@@ -110,9 +118,7 @@ public class WebController {
     @GetMapping("/complete-registration")
     public String registration(Model model,  @RequestParam(name="userId", required = false)Long userId){
         model.addAttribute("userId", userId);
-        log.info("userid: {}", userId);
-        UserData userData =  new UserData();
-        model.addAttribute("userData", userData);
+        model.addAttribute("userData", new UserData());
         return "complete-registration";
     }
 
@@ -121,7 +127,7 @@ public class WebController {
     public String saveUserData(UserData userData, Long userId, String role){
         userData.setUserId(userId);
         userService.changeUserRole(userId, role);
-        UserData userDataSaved = restTemplate.postForObject("http://user-data-service/api/v1/userdata/save", userData,  UserData.class);
+        userDataService.saveUserData(userData);
         return "redirect:login";
     }
 
@@ -151,18 +157,19 @@ public class WebController {
     @PostMapping("/update-user-data")
     @Retry(name="security-service")
     public String changeUserDat(Long userId, String newLastName, String newFirstName){
-        UserData userData = new UserData();
-        userData.setUserId(userId);
-        userData.setFirstName(newFirstName);
-        userData.setLastName(newLastName);
-        restTemplate.put("http://security-service/api/v1/user/update-user-data", userData,  UserData.class);
+        UserData userData = UserData.builder()
+                .firstName(newFirstName)
+                .lastName(newLastName)
+                .userId(userId)
+                .build();
+        userDataService.updateUserData(userData);
         return "redirect:update-user-profile?id="+userId;
     }
 
     @GetMapping("/update-user-profile")
     @Retry(name="security-service")
     public String setNewLocalStorage(Model model, Long id){
-        UserData userData = restTemplate.getForObject("http://security-service/api/v1/user/user-data/"+id,  UserData.class);
+        UserData userData = userDataService.getUserDataByUserId(id);
         model.addAttribute("userData", userData);
         return "update-user-profile";
     }
