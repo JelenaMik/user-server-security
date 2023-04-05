@@ -24,6 +24,9 @@
           th:object = "${user}">
         <h3>Enter your credential to register</h3>
         <div>
+            <p th:if="${status == 'email-exists'}" th:color="red"> Email already registered. Please choose another email.</p>
+        </div>
+        <div>
             <input type="email" class="input" th:field="*{email}" placeholder="Enter your email" />
         </div>
 

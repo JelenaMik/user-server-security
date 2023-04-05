@@ -131,6 +131,10 @@ public class UserServiceImpl implements UserService {
         AuthenticationResponse response = restTemplate.postForObject("http://security-service/api/v1/user/authenticate", request,  AuthenticationResponse.class);
         return response.getToken();
     }
+    @Override
+    public Boolean checkIfEmailExists(String email){
+        return userRepository.existsByEmail(email);
+    }
 
 
 }

@@ -54,4 +54,9 @@ public class AppointmentServiceImpl implements AppointmentService {
     public void changeAppointmentType(String appointmentType, Long id){
         appointmentRepository.changeAppointmentType(appointmentType, id);
     }
+
+    @Override
+    public  void bookAnAppointment(Long clientId, Long appointmentId, String details){
+        appointmentRepository.bookAppointment(clientId, appointmentId, details);
+    }
 }

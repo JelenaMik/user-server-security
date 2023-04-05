@@ -24,4 +24,6 @@ public interface AppointmentService {
     void changeAppointmentStatus(Long id);
 
     void changeAppointmentType(String appointmentType, Long id);
+
+    void bookAnAppointment(Long clientId, Long appointmentId, String details);
 }

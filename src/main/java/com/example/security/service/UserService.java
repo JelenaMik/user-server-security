@@ -30,4 +30,5 @@ public interface UserService {
     String getUserRoleById(Long userId);
 
     String getTokenAfterAuthentication(AuthenticationRequest request);
+    Boolean checkIfEmailExists(String email);
 }

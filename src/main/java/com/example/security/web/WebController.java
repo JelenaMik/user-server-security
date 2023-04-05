@@ -97,13 +97,17 @@ public class WebController {
     }
 
     @GetMapping("/register")
-    public String showRegisterPage(Model model){
+    public String showRegisterPage(@RequestParam(name="status", required = false) String status,Model model){
         model.addAttribute("user", new User());
+        model.addAttribute("status", status);
         return "register";
     }
 
     @PostMapping("/register")
-    public String completeRegistration(User user){
+    public String completeRegistration(User user, Model model){
+        if(userService.checkIfEmailExists(user.getEmail())){
+            return "redirect:register?status=email-exists";
+        }
         var request = new RegisterRequest(user.getEmail(), user.getPassword());
         var response = service.register(request);
         if (response!=null) {

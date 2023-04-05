@@ -20,9 +20,10 @@
 
 
 
-  <div class="calendar">
+  <div class="calendar" th:fragment="appointments">
 
   <h2 > <span th:text="${month}"></span>,&nbsp<span th:text="${year}"></span></h2>
+
     <script th:inline="javascript">
       let week = [[${week}]]
       const weekMinus = Math.floor(week - 1);

@@ -71,14 +71,16 @@
             </tr>
             </thead>
 
+
+
             <tbody>
             <tr th:each="provider : ${providerList}">
                 <form action="/see-provider-appointments" method="post">
                     <td th:text="${provider.firstName}" ></td>
                     <td th:text="${provider.lastName}" ></td>
                     <td th:text="${provider.registrationDate}" ></td>
-                    <input type="hidden" name="id" th:value="${provider.userId}">
-                    <td><button class="submit-btn" type="submit">See apointments</button></td>
+                    <input type="hidden" name="providerId" th:value="${provider.userId}">
+                    <td><button class="submit-btn" type="submit">See appointments</button></td>
                 </form>
 
             </tr>

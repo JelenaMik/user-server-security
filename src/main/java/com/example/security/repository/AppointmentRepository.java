@@ -47,4 +47,8 @@ public class AppointmentRepository {
     public void changeAppointmentType(String appointmentType, Long id){
         restTemplate.put("http://appointment-service/api/v1/appointments/change-type?type="+appointmentType+"&appointmentId="+id, AppointmentDto.class);
     }
+
+    public void bookAppointment(Long clientId, Long appointmentId, String details){
+        restTemplate.put("http://appointment-service/api/v1/appointments/book-appointment?clientId="+ clientId+ "&appointmentId=" + appointmentId + "&details="+ details, AppointmentDto.class);
+    }
 }

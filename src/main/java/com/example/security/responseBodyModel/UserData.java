@@ -1,5 +1,7 @@
 package com.example.security.responseBodyModel;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -14,11 +16,14 @@ import java.time.LocalDateTime;
 public class UserData {
 
     private Long id;
+    @NotNull
     private Long userId;
-
+    @NotNull
+    @NotBlank
     private String firstName;
-
+    @NotNull
+    @NotBlank
     private String lastName;
-@Nullable
+    @Nullable
     private LocalDateTime registrationDate;
 }

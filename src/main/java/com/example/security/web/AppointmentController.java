@@ -10,6 +10,7 @@ import com.example.security.service.WebService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.joda.time.LocalDate;
+import org.joda.time.LocalDateTime;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -46,6 +47,20 @@ public class AppointmentController {
         model.addAttribute("year", webService.getYear(week));
         return "my-appointments";
     }
+
+    @GetMapping("/provider-appointments/{providerId}/{week}")
+    public String seeAllProviderAppointments(@PathVariable Long providerId, @PathVariable Integer week, Model model){
+        List<AppointmentDto> list = appointmentService.getUserWeekAppointments(week, "provider", providerId);
+        model.addAttribute("daysOfWeek", webService.getListOfDates(week));
+        model.addAttribute("appointmentList", list);
+        model.addAttribute("week", week);
+        model.addAttribute("providerId", providerId);
+        model.addAttribute("month", webService.getMonth(week));
+        model.addAttribute("year", webService.getYear(week));
+        return "/provider-appointments";
+    }
+
+
 //    @GetMapping("/my-appointments")
 //    public String myAppointmentPage(Model model){
 //        List<Integer> daysOfWeek = webService.getListOfDates(new LocalDate().getWeekOfWeekyear());
@@ -110,9 +125,11 @@ public class AppointmentController {
     }
 
     @PostMapping("/see-provider-appointments")
-    public String seeProviderAppointments(){
-        return "redirect:my-profile";
+    public String redirectToProviderAppointments(Long providerId){
+        return "redirect:/provider-appointments/"+providerId+"/"+ LocalDate.now().getWeekOfWeekyear();
     }
+
+
 
     @PostMapping("/delete-appointment/{id}")
     public String deleteAppointment(@PathVariable Long id, String role, Long userId, Integer week){
@@ -136,14 +153,19 @@ public class AppointmentController {
         return "redirect:/appointment/"+id;
     }
 
-    @PostMapping("/see-provider-appointments/{id}")
-    public String showProviderAppointments(@PathVariable Long id){
-        return "redirect:provider-appointments/"+id;
+    @PostMapping("/book-appointment/{appointmentId}")
+    public String bookAnAppointment(@PathVariable Long appointmentId, String clientId, String details, Long providerId, String week){
+        log.info("Client class {}", clientId);
+        log.info("Details {}", details);
+        log.info("App id {}", appointmentId);
+//        appointmentService.bookAnAppointment(clientId, appointmentId, details);
+        return "redirect:/provider-appointments/"+providerId+"/"+week;
     }
 
-    @GetMapping("/provider-appointments/{id}")
-    public String seeProviderAppointments(@PathVariable Long id){
-        return "provider-appointments";
+    @PostMapping("/test")
+    public String seeSomethingFromScript(String string){
+        log.info("String is {}", string);
+        return "redirect:/provider-appointments/7/14";
     }
 
 
