@@ -11,14 +11,18 @@ import com.example.security.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.redis.core.TimeToLive;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import com.example.security.repository.model.User;
 import org.springframework.util.StringUtils;
 import org.springframework.web.client.RestTemplate;
+//import springfox.documentation.annotations.Cacheable;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.TimeUnit;
 
 @Log4j2
 @RequiredArgsConstructor
@@ -79,11 +83,13 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
+    @Cacheable(value = "userById", key = "#id")
     public User getUserById(Long id){
         return userRepository.findById(id).orElseThrow(UserNotFoundException::new);
     }
 
     @Override
+    @Cacheable(value="users")
     public List<User> findUsersBySearching(String email){
         log.info("email entered {}", email );
         if (StringUtils.hasText(email)) return userRepository.findFirst10ByEmailContaining(email);

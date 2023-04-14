@@ -101,7 +101,7 @@ public class UserController {
     }
 
     @GetMapping("/admin-page")
-    @Cacheable(value="users")
+//    @Cacheable(value="users")
     public ResponseEntity<List<User>> showAdminPage(@RequestParam(required = false) String string){
 //        redisTemplate.opsForHash().delete("admin", 1);
         log.info("Search by email {}", string);
@@ -110,7 +110,7 @@ public class UserController {
     }
 
     @GetMapping("/find-user/{id}")
-    @Cacheable(value ="userWithId", key = "#id")
+//    @Cacheable(value ="userWithId", key = "#id")
     public ResponseEntity<User> showAdminPage(@PathVariable Long id){
         User user = userService.getUserById(id);
         return ResponseEntity.ok(user);
