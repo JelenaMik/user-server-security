@@ -1,4 +1,4 @@
-package com.example.security.handler.exceptions;
+package com.example.security.exceptions;
 
 public class UserDataNotFoundException extends RuntimeException{
 }
