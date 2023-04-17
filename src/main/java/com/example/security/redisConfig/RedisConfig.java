@@ -43,7 +43,7 @@ public class RedisConfig {
                 .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(new JdkSerializationRedisSerializer()));
     }
 
-@Bean
+    @Bean
     public RedisTemplate<String, Object> redisTemplate(){
         RedisTemplate<String, Object> redisTemplate =new RedisTemplate<>();
         redisTemplate.setConnectionFactory(jedisConnectionFactory());

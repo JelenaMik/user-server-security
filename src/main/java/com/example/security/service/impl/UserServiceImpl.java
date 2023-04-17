@@ -7,11 +7,14 @@ import com.example.security.enums.Role;
 import com.example.security.handler.exceptions.UserDataNotFoundException;
 import com.example.security.handler.exceptions.UserNotFoundException;
 import com.example.security.repository.UserRepository;
+import com.example.security.service.RedisService;
 import com.example.security.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.TimeToLive;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -32,6 +35,8 @@ public class UserServiceImpl implements UserService {
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final RestTemplate restTemplate;
+    private final RedisService redisService;
+
 
     @Override
     public AuthenticationResponse changePassword(Long userId, String password) {
@@ -83,9 +88,15 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    @Cacheable(value = "userById", key = "#id")
+//    @Cacheable(value = "userById", key = "#id")
     public User getUserById(Long id){
-        return userRepository.findById(id).orElseThrow(UserNotFoundException::new);
+        Optional<User> userFromCache = redisService.getUserById(id);
+        if(userFromCache.isPresent()) return userFromCache.orElseThrow();
+        else {
+            User user = userRepository.findById(id).orElseThrow(UserNotFoundException::new);
+            redisService.saveUser(user);
+            return user;
+        }
     }
 
     @Override
