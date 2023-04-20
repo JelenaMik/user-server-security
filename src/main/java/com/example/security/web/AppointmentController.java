@@ -154,11 +154,11 @@ public class AppointmentController {
     }
 
     @PostMapping("/book-appointment/{appointmentId}")
-    public String bookAnAppointment(@PathVariable Long appointmentId, String clientId, String details, Long providerId, String week){
+    public String bookAnAppointment(@PathVariable Long appointmentId, Long clientId, String details, Long providerId, String week){
         log.info("Client class {}", clientId);
         log.info("Details {}", details);
         log.info("App id {}", appointmentId);
-//        appointmentService.bookAnAppointment(clientId, appointmentId, details);
+        appointmentService.bookAnAppointment(clientId, appointmentId, details);
         return "redirect:/provider-appointments/"+providerId+"/"+week;
     }
 

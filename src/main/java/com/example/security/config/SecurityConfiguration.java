@@ -38,20 +38,20 @@ public class SecurityConfiguration {
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
-                .formLogin(form -> form
-                        .loginPage("/login")
-//                        .loginProcessingUrl("api/v1/user/authenticate")
-                        .defaultSuccessUrl("/my-profile", true)
-                        .permitAll())
+//                .formLogin(form -> form
+//                        .loginPage("/login")
+////                        .defaultSuccessUrl("/set-localstorage", true)
+//                        .permitAll())
 
 //                .formLogin()
 //                .loginPage("/login")
-//                .loginProcessingUrl("/my-profile")
-//                .failureUrl("/login")
+////                .loginProcessingUrl("/my-profile")
+////                .failureUrl("/login")
 //                .and()
 
                 .authenticationProvider(authenticationProvider)
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
+//                .rememberMe();
 
         return http.build();
     }

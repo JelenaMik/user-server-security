@@ -21,7 +21,7 @@ public interface UserService {
     List<User> findUsersBySearching(String email);
 
 
-    List<User> findProvidersBySearching();
+    List<Long> findProvidersBySearching();
 
     Boolean isUserDataProvider(Long userId);
 

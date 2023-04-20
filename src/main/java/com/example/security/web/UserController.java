@@ -4,10 +4,14 @@ import com.example.security.auth.AuthenticationRequest;
 import com.example.security.auth.AuthenticationResponse;
 import com.example.security.auth.AuthenticationService;
 import com.example.security.responseBodyModel.UserData;
+import com.example.security.service.UserDataService;
 import com.example.security.service.UserService;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,10 +33,15 @@ import java.util.List;
 @RequestMapping("/api/v1/user")
 public class UserController {
 
-    public static final String USER_SERVICE = "userService";
+    public static final String USER_SERVICE = "http://localhost:8102/api/v1/userdata/";
     private final UserService userService;
     private final AuthenticationService service;
+
+//    private final RestTemplateBuilder restTemplateBuilder;
+
+    @Autowired
     private final RestTemplate restTemplate;
+    private final UserDataService userDataService;
 
     //    Testing
     @GetMapping("/hi")
@@ -42,7 +51,8 @@ public class UserController {
 
     @GetMapping("/all-user-data")
     public ResponseEntity<List<UserData>> allUsersData() {
-        List<UserData> list = restTemplate.getForObject("http://user-data-service/api/v1/userdata/all-users-data", List.class);
+//        RestTemplate restTemplate = restTemplateBuilder.build();
+        List<UserData> list = restTemplate.getForObject(USER_SERVICE+"all-users-data", List.class);
         return ResponseEntity.ok(list);
     }
 
@@ -51,7 +61,8 @@ public class UserController {
             name = "user-data-service", fallbackMethod = "hardCodedUserData"
     )
     public ResponseEntity<UserData> userData(@PathVariable Long id) {
-        UserData userData = restTemplate.getForObject("http://user-data-service/api/v1/userdata/get-data/" + id, UserData.class);
+//        RestTemplate restTemplate = restTemplateBuilder.build();
+        UserData userData = restTemplate.getForObject(USER_SERVICE+"get-data/" + id, UserData.class);
         return ResponseEntity.ok(userData);
     }
 
@@ -64,7 +75,8 @@ public class UserController {
 
     @PutMapping("/update-user-data")
     public ResponseEntity<HttpStatus> updateData(@RequestBody UserData userData) {
-        restTemplate.put("http://user-data-service/api/v1/userdata/update-user-data", userData);
+//        RestTemplate restTemplate = restTemplateBuilder.build();
+        restTemplate.put(USER_SERVICE+"update-user-data", userData);
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
@@ -97,6 +109,11 @@ public class UserController {
             @RequestBody AuthenticationRequest request
     ) {
         return ResponseEntity.ok(service.authenticate(request));
+    }
+
+    @GetMapping("/get-providers")
+    public ResponseEntity<List> getProviderList() {
+        return ResponseEntity.ok(userDataService.getProviderListIfSearchingStringIsEmpty());
     }
 
 

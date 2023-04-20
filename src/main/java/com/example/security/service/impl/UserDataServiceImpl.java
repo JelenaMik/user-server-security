@@ -5,6 +5,7 @@ import com.example.security.repository.model.User;
 import com.example.security.responseBodyModel.UserData;
 import com.example.security.service.UserDataService;
 import com.example.security.service.UserService;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.json.JsonMapper;
 import lombok.RequiredArgsConstructor;
@@ -31,11 +32,12 @@ public class UserDataServiceImpl implements UserDataService {
         return providerList;
     }
     @Override
-    public List<UserData> getProviderListIfSearchingStringIsEmpty(){
-        List<User> first10Providers = userService.findProvidersBySearching();
-        log.debug("First ten users {}", first10Providers);
-        List<UserData> providerData = userDataRepository.getProvidersData(first10Providers);
-        log.debug("ProviderData list {}", providerData);
+    public List<UserData> getProviderListIfSearchingStringIsEmpty() {
+        log.info("in server method");
+        List<Long> first10Providers = userService.findProvidersBySearching();
+        log.info("First ten users {}", first10Providers);
+        List<UserData> providerData = getProvidersData(first10Providers);
+        log.info("ProviderData list {}", providerData);
         return providerData;
     }
 
@@ -52,6 +54,13 @@ public class UserDataServiceImpl implements UserDataService {
     @Override
     public void updateUserData(UserData userData){
         userDataRepository.updateUserData(userData);
+    }
+
+    @Override
+    public List<UserData> getProvidersData(List<Long> first10Providers) {
+        return first10Providers.stream()
+                .map(userDataRepository::getUserDataByUserId)
+                .toList();
     }
 
 }

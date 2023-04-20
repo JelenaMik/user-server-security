@@ -11,12 +11,15 @@ import com.example.security.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import com.example.security.repository.model.User;
 import org.springframework.util.StringUtils;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,7 +30,10 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
-    private final RestTemplate restTemplate;
+//    private final RestTemplateBuilder restTemplateBuilder;
+
+    @Autowired
+    private RestTemplate restTemplate;
 
     @Override
     public AuthenticationResponse changePassword(Long userId, String password) {
@@ -91,8 +97,16 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> findProvidersBySearching(){
-        return userRepository.findFirst10ByRole(Role.PROVIDER);
+    public List<Long> findProvidersBySearching(){
+        log.info("in user serviceimpl searching for 10 providers");
+        List<User> listOfProviders = userRepository.findFirst10ByRole(Role.PROVIDER);
+        List<Long> listWithProvidersId = new ArrayList<>();
+        listWithProvidersId = listOfProviders.stream()
+                .map(provider -> provider.getId())
+                .toList();
+        log.info("Provider list {}", listOfProviders);
+        log.info("list of Id {}", listWithProvidersId);
+        return listWithProvidersId;
 
     }
 
@@ -128,7 +142,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public String getTokenAfterAuthentication(AuthenticationRequest request){
-        AuthenticationResponse response = restTemplate.postForObject("http://security-service/api/v1/user/authenticate", request,  AuthenticationResponse.class);
+//        RestTemplate restTemplate = restTemplateBuilder.build();
+        AuthenticationResponse response = restTemplate.postForObject("http://localhost:8101/api/v1/user/authenticate", request,  AuthenticationResponse.class);
         return response.getToken();
     }
     @Override

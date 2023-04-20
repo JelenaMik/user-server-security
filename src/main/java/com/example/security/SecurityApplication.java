@@ -9,15 +9,14 @@ import org.springframework.web.client.RestTemplate;
 
 @SpringBootApplication
 public class SecurityApplication {
-	@Bean
-	@LoadBalanced
-	public RestTemplate getRestTemplate(){
-
-		HttpComponentsClientHttpRequestFactory clientHttpRequestFactory =new HttpComponentsClientHttpRequestFactory();
-		clientHttpRequestFactory.setConnectTimeout(3000);
-		return new RestTemplate(clientHttpRequestFactory);
-	}
-
+//	@Bean
+//	@LoadBalanced
+//	public RestTemplate getRestTemplate(){
+//
+//		HttpComponentsClientHttpRequestFactory clientHttpRequestFactory =new HttpComponentsClientHttpRequestFactory();
+//		clientHttpRequestFactory.setConnectTimeout(3000);
+//		return new RestTemplate(clientHttpRequestFactory);
+//	}
 	public static void main(String[] args) {
 		SpringApplication.run(SecurityApplication.class, args);
 	}

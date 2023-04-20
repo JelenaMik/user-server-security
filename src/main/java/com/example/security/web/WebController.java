@@ -8,6 +8,7 @@ import com.example.security.repository.model.User;
 import com.example.security.responseBodyModel.UserData;
 import com.example.security.service.UserDataService;
 import com.example.security.service.UserService;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import io.github.resilience4j.retry.annotation.Retry;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -31,9 +32,7 @@ public class WebController {
 
     private final UserService userService;
     private final AuthenticationService service;
-
     private final UserDataService userDataService;
-
 
     @GetMapping("/my-profile")
     public String loginSuccess(@RequestParam(required = false) String string, Model model){

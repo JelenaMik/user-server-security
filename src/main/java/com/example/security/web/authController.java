@@ -16,19 +16,14 @@ import org.springframework.web.client.RestTemplate;
 @Log4j2
 @RequiredArgsConstructor
 public class authController {
-    @Autowired
-    private RestTemplate restTemplate;
-    private final UserService userService;
-
-    private final AuthenticationService authenticationService;
 
 
-    @GetMapping("/login")
-    public String login(@RequestParam(name="status", required = false) String status, Model model){
-        model.addAttribute("authenticationRequest", new AuthenticationRequest());
-        model.addAttribute("status", status);
-        return "login";
-    }
+//    @GetMapping("/login")
+//    public String login(@RequestParam(name="status", required = false) String status, Model model){
+//        model.addAttribute("authenticationRequest", new AuthenticationRequest());
+//        model.addAttribute("status", status);
+//        return "login";
+//    }
 
 
 

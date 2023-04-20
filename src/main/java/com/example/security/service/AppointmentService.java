@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service
+
 public interface AppointmentService {
     List<AppointmentDto> getUserWeekAppointments(Integer week, String role, Long userId);
 
