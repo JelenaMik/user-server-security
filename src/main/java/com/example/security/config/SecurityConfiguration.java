@@ -4,12 +4,14 @@ import jakarta.servlet.Filter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import static org.springframework.security.web.util.matcher.AntPathRequestMatcher.antMatcher;
 
 @Configuration
 @EnableWebSecurity
@@ -27,7 +29,9 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests()
                 .requestMatchers("/api/v1/auth/**")
                 .permitAll()
-                .requestMatchers("/login/**")
+                .requestMatchers("/api/v1/user/**").permitAll()
+                .requestMatchers("/", "/login/**").permitAll()
+                .requestMatchers(antMatcher(HttpMethod.POST, "/login-process/**"))
                 .permitAll()
                 .requestMatchers("/swagger-ui/**", "**/v3/api-docs/**")
                 .permitAll()
@@ -38,16 +42,18 @@ public class SecurityConfiguration {
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
-                .formLogin(form -> form
-                        .loginPage("/login")
-//                        .loginProcessingUrl("api/v1/user/authenticate")
-                        .defaultSuccessUrl("/my-profile", true)
-                        .permitAll())
+                .exceptionHandling()
+                .accessDeniedHandler(new JwtFilterAccessDenied())
+                .and()
+//                .formLogin(form -> form
+//                        .loginPage("/login")
+////                        .defaultSuccessUrl("/set-localstorage", true)
+//                        .permitAll())
 
 //                .formLogin()
 //                .loginPage("/login")
-//                .loginProcessingUrl("/my-profile")
-//                .failureUrl("/login")
+////                .loginProcessingUrl("/my-profile")
+////                .failureUrl("/login")
 //                .and()
 
                 .authenticationProvider(authenticationProvider)

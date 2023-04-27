@@ -13,16 +13,16 @@
 
 <div class="pageContent centered-content">
 
-<br><br>
-    <div id="create-new-appointment" class="new-appointment">
-        <a id="new-app" href="">Create new appointment <ion-icon name="today-sharp"></ion-icon>
-            <script>document.getElementById("new-app").href='/new-appointment/' + userData.userId ;</script>
-        </a>
-    </div>
-    <script >
-        if(role != "provider"){
-            document.getElementById('create-new-appointment').style.display = 'none';}
-    </script>
+    <br><br>
+        <div id="create-new-appointment" class="new-appointment">
+            <a id="new-app" href="">Create new appointment <ion-icon name="today-sharp"></ion-icon>
+                <script>document.getElementById("new-app").href='/new-appointment/' + userData.userId ;</script>
+            </a>
+        </div>
+        <script >
+         if(role != "provider"){
+             document.getElementById('create-new-appointment').style.display = 'none';}
+        </script>
 
 <!--    <h2>My name is <span id="name"><script>-->
 <!--        document.getElementById("name").innerText = JSON.stringify(userData.id);</script></span></h2>-->
@@ -35,71 +35,70 @@
 <!--    <h2>My id is <span id="myId"><script>-->
 <!--        document.getElementById("myId").innerText = console.log(document.cookie);</script></span></h2>-->
 
-<h2>
-    <script>
-       getActiveUserId = function () {
-           const userData = JSON.parse(localStorage.getItem("userData"));
-           const getActiveUserId = userData.userId;
-           document.getElementById("getActiveUserId").innerHTML = getActiveUserId;
-           return getActiveUserId;
-           }
-
-    </script>
-</h2>
-
+    <h2>
+        <script>
+            getActiveUserId = function () {
+                const userData = JSON.parse(localStorage.getItem("userData"));
+                const getActiveUserId = userData.userId;
+                document.getElementById("getActiveUserId").innerHTML = getActiveUserId;
+                return getActiveUserId;
+            }
+        </script>
+    </h2>
 
 
     <div id="client-view">
-    <div>
-        <h2>Search for providers by name</h2>
-        <form action="/search-providers" method="post">
-            <input class="input" name="firstName">
-            <button type="submit" >Submit</button>
+        <div>
+            <h2>Search for providers by name</h2>
+            <form action="/search-providers" method="post">
+                <input class="input" name="firstName">
+                <button type="submit" >Submit</button>
+            </form>
+        </div>
+
+        <div id="client-view2">
+        <h2>Show My favorite providers</h2>
+        <form th:action="@{/favorite-providers}" method="post">
+            <input type="hidden" id="clientId" name="clientId" >
+            <script>
+                document.getElementById("clientId").value = userData.userId;
+            </script>
+            <button type="submit" >Show my favorite providers</button>
         </form>
+        </div>
+
+        <div class="user-table">
+            <table class="summary-table">
+                <thead>
+                    <tr>
+                        <th>First name</th>
+                        <th>Last Name</th>
+                        <th>Registration Date</th>
+                        <!--                <th>Role</th>-->
+                        <!--      <th>isActive</th>-->
+                        <th>Action</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr th:each="provider : ${providerList}">
+                        <form action="/see-provider-appointments" method="post">
+                            <td th:text="${provider.firstName}" ></td>
+                            <td th:text="${provider.lastName}" ></td>
+                            <td th:text="${provider.registrationDate}" ></td>
+                            <input type="hidden" name="providerId" th:value="${provider.userId}">
+                            <td><button class="submit-btn" type="submit">See appointments</button></td>
+                        </form>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <script >
+            if(role != "client"){
+                document.getElementById('client-view').style.display = 'none';
+                document.getElementById('client-view2').style.display = 'none';}
+        </script>
     </div>
-
-    <div class="user-table">
-        <table class="summary-table">
-            <thead>
-            <tr>
-                <th>First name</th>
-                <th>Last Name</th>
-                <th>Registration Date</th>
-                <!--                <th>Role</th>-->
-                <!--      <th>isActive</th>-->
-                <th>Action</th>
-            </tr>
-            </thead>
-
-
-
-            <tbody>
-            <tr th:each="provider : ${providerList}">
-                <form action="/see-provider-appointments" method="post">
-                    <td th:text="${provider.firstName}" ></td>
-                    <td th:text="${provider.lastName}" ></td>
-                    <td th:text="${provider.registrationDate}" ></td>
-                    <input type="hidden" name="providerId" th:value="${provider.userId}">
-                    <td><button class="submit-btn" type="submit">See appointments</button></td>
-                </form>
-
-            </tr>
-            </tbody>
-
-        </table>
-    </div>
-    </div>
-    <script >
-        if(role != "client"){
-            document.getElementById('client-view').style.display = 'none';}
-    </script>
-
-
-
-
-
-
-
 </div>
 
 <div th:insert="~{footer.html :: footer}"></div>

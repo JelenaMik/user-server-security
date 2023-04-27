@@ -1,4 +1,4 @@
-package com.example.security.responseBodyModel;
+package com.example.security.responsebodymodel;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -8,12 +8,13 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.annotation.Nullable;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class UserData {
+public class UserData implements Serializable {
 
     private Long id;
     @NotNull

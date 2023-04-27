@@ -1,16 +1,15 @@
 package com.example.security.web;
 
-import com.example.security.responseBodyModel.AppointmentDetailDto;
-import com.example.security.responseBodyModel.AppointmentDto;
-import com.example.security.responseBodyModel.AppointmentRequest;
-import com.example.security.responseBodyModel.UserData;
+import com.example.security.responsebodymodel.AppointmentDetailDto;
+import com.example.security.responsebodymodel.AppointmentDto;
+import com.example.security.responsebodymodel.AppointmentRequest;
+import com.example.security.responsebodymodel.UserData;
 import com.example.security.service.AppointmentService;
 import com.example.security.service.UserDataService;
 import com.example.security.service.WebService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.joda.time.LocalDate;
-import org.joda.time.LocalDateTime;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -154,11 +153,11 @@ public class AppointmentController {
     }
 
     @PostMapping("/book-appointment/{appointmentId}")
-    public String bookAnAppointment(@PathVariable Long appointmentId, String clientId, String details, Long providerId, String week){
+    public String bookAnAppointment(@PathVariable Long appointmentId, Long clientId, String details, Long providerId, String week){
         log.info("Client class {}", clientId);
         log.info("Details {}", details);
         log.info("App id {}", appointmentId);
-//        appointmentService.bookAnAppointment(clientId, appointmentId, details);
+        appointmentService.bookAnAppointment(clientId, appointmentId, details);
         return "redirect:/provider-appointments/"+providerId+"/"+week;
     }
 

@@ -1,4 +1,4 @@
-package com.example.security.responseBodyModel;
+package com.example.security.responsebodymodel;
 
 import com.example.security.enums.AppointmentStatus;
 import com.fasterxml.jackson.annotation.JsonFormat;

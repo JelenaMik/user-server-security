@@ -17,7 +17,6 @@ public class WebServiceImpl implements WebService {
 
     @Override
     public List<Integer> getListOfDates(Integer week){
-//        if (week.equals(null)) week= new LocalDate().getWeekOfWeekyear();
         LocalDate monday = new LocalDate().withWeekOfWeekyear(week).withDayOfWeek(DateTimeConstants.MONDAY);
 
         List<LocalDate> currentWeek = new ArrayList<>();

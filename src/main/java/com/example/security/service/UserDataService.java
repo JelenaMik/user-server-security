@@ -1,18 +1,26 @@
 package com.example.security.service;
 
-import com.example.security.responseBodyModel.UserData;
-import org.springframework.stereotype.Service;
+import com.example.security.responsebodymodel.UserData;
 
 import java.util.List;
-@Service
+
 public interface UserDataService {
     List<UserData> getProviderListIfSearchingStringHasText(String string);
 
-    List<UserData> getProviderListIfSearchingStringIsEmpty();
+    List<UserData> getProviderListIfSearchingStringIsEmpty() ;
 
     UserData getUserDataByUserId(Long userId);
 
-    UserData saveUserData(UserData userData);
+    void saveUserData(UserData userData);
 
     void updateUserData(UserData userData);
+
+    List<UserData> getProvidersData(List<Long> first10Providers);
+
+    List<UserData> getAllUsersData();
+    void addFavoriteProvider(Long clientId, Long providerId);
+
+    List<UserData> getFavoriteProviders(Long clientId);
+
+    void deleteFavoriteProvider(Long clientId, Long providerId);
 }

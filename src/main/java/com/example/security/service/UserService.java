@@ -21,9 +21,13 @@ public interface UserService {
     List<User> findUsersBySearching(String email);
 
 
-    List<User> findProvidersBySearching();
+    List<Long> findProvidersBySearching();
 
     Boolean isUserDataProvider(Long userId);
+
+    Boolean isUserProvider(Long userId);
+
+    Boolean isUserClient(Long clientId);
 
     String adminChangePassword(Long userId);
 
