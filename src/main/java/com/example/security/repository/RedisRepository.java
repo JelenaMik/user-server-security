@@ -1,10 +1,12 @@
 package com.example.security.repository;
 
 import com.example.security.repository.model.User;
+import com.example.security.responsebodymodel.UserData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -21,4 +23,9 @@ public class RedisRepository {
     public void saveUser(User user){
         redisTemplate.opsForHash().put("userById", user.getId().toString(), user);
     }
+
+    public  void saveFavoriteProviderList(List<UserData> providerList, Long clientId){
+        redisTemplate.opsForHash().put("favoriteProviders", clientId.toString(), providerList);
+    }
+
 }
