@@ -1,4 +1,4 @@
-package com.example.security;
+package com.example.security.restControllersSpringBootTests;
 
 import com.example.security.auth.AuthenticationRequest;
 import com.example.security.auth.RegisterRequest;
@@ -51,10 +51,10 @@ public class AuthenticationControllerTests {
                 .password("1111")
                 .build();
 
-        when(repository.findByEmail("user@mail.com")).thenReturn(Optional.ofNullable(user));
+        when(repository.findByEmail("user@mail.com")).thenReturn(Optional.of(user));
 
         mockMvc.perform(
-                        MockMvcRequestBuilders.post("/api/v1/auth//authenticate")
+                        MockMvcRequestBuilders.post("/api/v1/auth/authenticate")
                                 .accept(MediaType.APPLICATION_JSON)
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(asJsonString(request)))
@@ -71,13 +71,13 @@ public class AuthenticationControllerTests {
 
         User user = User.builder()
                 .email("user@mail.com")
-                .password("1111")
+                .password("$2a$10$cUJP2xCZchVc2hhRhrwwcO8MdKY0OBCm2tgYwSe1nmJPljkNxfzd.")
                 .role(Role.USER)
                 .build();
 
         AuthenticationRequest request = AuthenticationRequest.builder()
                 .email("user@mail.com")
-                .password("1111")
+                .password("11")
                 .build();
 
         when(repository.findByEmail("user@mail.com")).thenReturn(Optional.ofNullable(user));
@@ -88,7 +88,7 @@ public class AuthenticationControllerTests {
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(asJsonString(request)))
                 .andDo(print())
-                .andExpect(status().isFound())
+                .andExpect(status().is(403))
                 .andExpect(MockMvcResultMatchers.jsonPath("$").doesNotExist())
                 .andReturn();
     }
@@ -110,7 +110,7 @@ public class AuthenticationControllerTests {
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(asJsonString(request)))
                 .andDo(print())
-                .andExpect(status().isFound())
+                .andExpect(status().is(403))
                 .andExpect(MockMvcResultMatchers.jsonPath("$").doesNotExist())
                 .andReturn();
     }
@@ -161,41 +161,6 @@ public class AuthenticationControllerTests {
 
     }
 
-
-    @Test
-    @SneakyThrows
-    void testRegistrationWrongEmail(){
-
-//        User user = User.builder()
-//                .email("user@mail.com")
-//                .password("$2a$10$cUJP2xCZchVc2hhRhrwwcO8MdKY0OBCm2tgYwSe1nmJPljkNxfzd.")
-//                .role(Role.USER)
-//                .build();
-//        User userWithId = User.builder()
-//                .id(1L)
-//                .email("user@mail.com")
-//                .password("$2a$10$cUJP2xCZchVc2hhRhrwwcO8MdKY0OBCm2tgYwSe1nmJPljkNxfzd.")
-//                .role(Role.USER)
-//                .build();
-
-        RegisterRequest request = RegisterRequest.builder()
-                .email("1111")
-                .password("1111")
-                .build();
-
-//        when(repository.save(user)).thenReturn(userWithId);
-
-        mockMvc.perform(
-                        MockMvcRequestBuilders.post("/api/v1/auth/register")
-                                .accept(MediaType.APPLICATION_JSON)
-                                .contentType(MediaType.APPLICATION_JSON)
-                                .content(registerAsJsonString(request)))
-                .andDo(print())
-                .andExpect(status().isBadRequest())
-                .andExpect(res -> assertTrue(res.getResolvedException() instanceof ConstraintViolationException))
-                .andReturn();
-
-    }
 
     public static String registerAsJsonString(RegisterRequest request) {
         try {

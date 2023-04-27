@@ -1,9 +1,10 @@
 package com.example.security.service.impl;
 
+import com.example.security.exceptions.AppointmentNotFoundException;
 import com.example.security.repository.AppointmentRepository;
-import com.example.security.responseBodyModel.AppointmentDetailDto;
-import com.example.security.responseBodyModel.AppointmentDto;
-import com.example.security.responseBodyModel.AppointmentRequest;
+import com.example.security.responsebodymodel.AppointmentDetailDto;
+import com.example.security.responsebodymodel.AppointmentDto;
+import com.example.security.responsebodymodel.AppointmentRequest;
 import com.example.security.service.AppointmentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -22,17 +23,17 @@ public class AppointmentServiceImpl implements AppointmentService {
 
     @Override
     public AppointmentDto getAppointmentById(Long id){
-        return appointmentRepository.getAppointmentById(id);
+        return appointmentRepository.getAppointmentById(id).orElseThrow(AppointmentNotFoundException::new);
     }
 
     @Override
     public AppointmentDetailDto getAppointmentDetailById(Long id){
-        return appointmentRepository.getAppointmentDetailByAppId(id);
+        return appointmentRepository.getAppointmentDetailByAppId(id).orElseThrow(AppointmentNotFoundException::new);
     }
 
     @Override
     public AppointmentDto createAppointment(AppointmentRequest appointmentRequest){
-        return appointmentRepository.createAppointment(appointmentRequest);
+        return appointmentRepository.createAppointment(appointmentRequest).orElseThrow(AppointmentNotFoundException::new);
     }
 
     @Override

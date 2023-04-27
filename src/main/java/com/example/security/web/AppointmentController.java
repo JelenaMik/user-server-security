@@ -1,16 +1,15 @@
 package com.example.security.web;
 
-import com.example.security.responseBodyModel.AppointmentDetailDto;
-import com.example.security.responseBodyModel.AppointmentDto;
-import com.example.security.responseBodyModel.AppointmentRequest;
-import com.example.security.responseBodyModel.UserData;
+import com.example.security.responsebodymodel.AppointmentDetailDto;
+import com.example.security.responsebodymodel.AppointmentDto;
+import com.example.security.responsebodymodel.AppointmentRequest;
+import com.example.security.responsebodymodel.UserData;
 import com.example.security.service.AppointmentService;
 import com.example.security.service.UserDataService;
 import com.example.security.service.WebService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.joda.time.LocalDate;
-import org.joda.time.LocalDateTime;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;

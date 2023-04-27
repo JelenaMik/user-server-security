@@ -1,4 +1,4 @@
-package com.example.security.responseBodyModel;
+package com.example.security.responsebodymodel;
 
 
 import jakarta.validation.constraints.FutureOrPresent;

@@ -25,6 +25,10 @@ public interface UserService {
 
     Boolean isUserDataProvider(Long userId);
 
+    Boolean isUserProvider(Long userId);
+
+    Boolean isUserClient(Long clientId);
+
     String adminChangePassword(Long userId);
 
     String getUserRoleById(Long userId);

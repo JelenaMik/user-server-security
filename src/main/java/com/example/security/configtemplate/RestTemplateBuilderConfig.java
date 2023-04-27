@@ -1,4 +1,4 @@
-package com.example.security;
+package com.example.security.configtemplate;
 
 import org.springframework.boot.autoconfigure.web.client.RestTemplateBuilderConfigurer;
 import org.springframework.boot.web.client.RestTemplateBuilder;
@@ -20,12 +20,10 @@ import org.springframework.web.util.DefaultUriBuilderFactory;
 
             return builder.uriTemplateHandler(uriBuilderFactory);
         }
-
         @Bean
         public RestTemplate getRestTemplate(){
             RestTemplateBuilder restTemplateBuilder = new RestTemplateBuilder();
-            RestTemplate restTemplate = restTemplateBuilder.build();
-            return restTemplate;
+            return restTemplateBuilder.build();
         }
 
     }

@@ -1,5 +1,10 @@
 package com.example.security.exceptions.handler;
 
+import com.example.security.exceptions.AppointmentNotFoundException;
+import com.example.security.exceptions.UserDataNotFoundException;
+import com.example.security.exceptions.UserIsNotClientException;
+import com.example.security.exceptions.UserIsNotProviderException;
+import com.example.security.exceptions.UserNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.ConstraintViolationException;
@@ -37,9 +42,7 @@ public class GlobalControllerExceptionHandler {
 //    }
 
     @ExceptionHandler(ConstraintViolationException.class)
-    ResponseEntity handleBindErrors(ConstraintViolationException exception, HttpServletRequest request, HttpServletResponse response) throws IOException {
-
-
+    ResponseEntity<ErrorModel> handleBindErrors(ConstraintViolationException exception, HttpServletRequest request, HttpServletResponse response) throws IOException {
 
         List errorList = exception.getConstraintViolations().stream()
                 .map(fieldError -> {
@@ -57,6 +60,67 @@ public class GlobalControllerExceptionHandler {
                 .build();
 
         return new ResponseEntity<>(errorModel, HttpStatus.BAD_REQUEST);
+    }
+    @ExceptionHandler(UserDataNotFoundException.class)
+    ResponseEntity<ErrorModel> handleBindErrors(UserDataNotFoundException exception, HttpServletRequest request, HttpServletResponse response) throws IOException {
+        response.sendError(HttpStatus.NOT_FOUND.value(),"User data was not found");
+
+        ErrorModel errorModel = ErrorModel.builder()
+                .timestamp(LocalDate.now())
+                .status(HttpStatus.NOT_FOUND)
+                .message("User data was not found")
+                .path(request.getRequestURI())
+                .build();
+
+        return new ResponseEntity<>(errorModel, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(UserNotFoundException.class)
+    ResponseEntity<ErrorModel> handleBindErrors(UserNotFoundException exception, HttpServletRequest request, HttpServletResponse response) throws IOException {
+        response.sendError(HttpStatus.NOT_FOUND.value(),"User was not found");
+
+        ErrorModel errorModel = ErrorModel.builder()
+                .timestamp(LocalDate.now())
+                .status(HttpStatus.NOT_FOUND)
+                .message("User was not found")
+                .path(request.getRequestURI())
+                .build();
+
+        return new ResponseEntity<>(errorModel, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler({UserIsNotClientException.class})
+    ResponseEntity<ErrorModel> handleBindErrors(UserIsNotClientException exception, HttpServletRequest request, HttpServletResponse response) throws IOException {
+        response.sendError(HttpStatus.BAD_REQUEST.value(),"User is not a client");
+
+        ErrorModel errorModel = ErrorModel.builder()
+                .timestamp(LocalDate.now())
+                .status(HttpStatus.BAD_REQUEST)
+                .message("User is not a client")
+                .path(request.getRequestURI())
+                .build();
+
+        return new ResponseEntity<>(errorModel, HttpStatus.BAD_REQUEST);
+    }
+    @ExceptionHandler({UserIsNotProviderException.class})
+    ResponseEntity<ErrorModel> handleBindErrors(UserIsNotProviderException exception, HttpServletRequest request, HttpServletResponse response) throws IOException {
+        response.sendError(HttpStatus.BAD_REQUEST.value(),"User is not a provider");
+
+        ErrorModel errorModel = ErrorModel.builder()
+                .timestamp(LocalDate.now())
+                .status(HttpStatus.BAD_REQUEST)
+                .message("User is not a provider")
+                .path(request.getRequestURI())
+                .build();
+
+        return new ResponseEntity<>(errorModel, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(AppointmentNotFoundException.class)
+    protected ResponseEntity handleConflict(AppointmentNotFoundException e, HttpServletRequest request){
+        ErrorModel errorModel = new ErrorModel(LocalDate.now(), HttpStatus.NOT_FOUND,
+                "Bad Request", "No appointment was found", request.getRequestURI());
+        return new ResponseEntity<>(errorModel, HttpStatus.NOT_FOUND);
     }
 
 }

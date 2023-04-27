@@ -5,10 +5,9 @@ import com.example.security.auth.AuthenticationResponse;
 import com.example.security.auth.AuthenticationService;
 import com.example.security.auth.RegisterRequest;
 import com.example.security.repository.model.User;
-import com.example.security.responseBodyModel.UserData;
+import com.example.security.responsebodymodel.UserData;
 import com.example.security.service.UserDataService;
 import com.example.security.service.UserService;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import io.github.resilience4j.retry.annotation.Retry;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -59,6 +58,17 @@ public class WebController {
         return "redirect:my-profile?string="+firstName;
     }
 
+    @PostMapping("/favorite-providers")
+    public String showFavoriteProviders(Long clientId){
+        return "redirect:my-favorite/"+clientId;
+    }
+
+    @GetMapping("/my-favorite/{clientId}")
+    public String showMyFavoriteProviders(@PathVariable Long clientId, Model model){
+        model.addAttribute("favoriteProviders", userDataService.getFavoriteProviders(clientId));
+        return "my-favorite";
+    }
+
 
     @GetMapping("/set-localstorage/{email}")
 //    @CircuitBreaker(name = "user-data-service", fallbackMethod = "defaultData")
@@ -88,6 +98,7 @@ public class WebController {
     @Retry(name="security-service")
     public String authenticate( AuthenticationRequest authenticationRequest ) {
         try{
+            log.info("try");
             userService.getTokenAfterAuthentication(authenticationRequest);
             return "redirect:set-localstorage/"+authenticationRequest.getEmail();}
         catch (Exception e){
@@ -104,7 +115,7 @@ public class WebController {
 
     @PostMapping("/register")
     public String completeRegistration(User user, Model model){
-        if(userService.checkIfEmailExists(user.getEmail())){
+        if(Boolean.TRUE.equals(userService.checkIfEmailExists(user.getEmail()))){
             return "redirect:register?status=email-exists";
         }
         var request = new RegisterRequest(user.getEmail(), user.getPassword());

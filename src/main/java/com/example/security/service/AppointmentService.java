@@ -1,9 +1,8 @@
 package com.example.security.service;
 
-import com.example.security.responseBodyModel.AppointmentDetailDto;
-import com.example.security.responseBodyModel.AppointmentDto;
-import com.example.security.responseBodyModel.AppointmentRequest;
-import org.springframework.stereotype.Service;
+import com.example.security.responsebodymodel.AppointmentDetailDto;
+import com.example.security.responsebodymodel.AppointmentDto;
+import com.example.security.responsebodymodel.AppointmentRequest;
 
 import java.util.List;
 
@@ -26,4 +25,5 @@ public interface AppointmentService {
     void changeAppointmentType(String appointmentType, Long id);
 
     void bookAnAppointment(Long clientId, Long appointmentId, String details);
+
 }
