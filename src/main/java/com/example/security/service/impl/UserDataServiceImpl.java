@@ -3,6 +3,7 @@ package com.example.security.service.impl;
 import com.example.security.exceptions.UserDataNotFoundException;
 import com.example.security.repository.UserDataRepository;
 import com.example.security.responsebodymodel.UserData;
+import com.example.security.service.RedisService;
 import com.example.security.service.UserDataService;
 import com.example.security.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +18,7 @@ public class UserDataServiceImpl implements UserDataService {
 
     private final UserDataRepository userDataRepository;
     private final UserService userService;
+    private final RedisService redisService;
 
     @Override
     public List<UserData> getProviderListIfSearchingStringHasText(String string){
@@ -71,12 +73,20 @@ public class UserDataServiceImpl implements UserDataService {
         if(userService.isUserClient(clientId) && userService.isUserProvider(providerId))
             userDataRepository.addFavoriteProvider(clientId, providerId);
         log.info("Client with id {} added favorite provider with id {}", clientId, providerId);
+        redisService.removeProviderList(clientId);
     }
 
     @Override
     public List<UserData> getFavoriteProviders(Long clientId) {
-        List<UserData> list = userDataRepository.getFavoriteProviders(clientId);
-        log.info("Client with Id: {} favorite provider List: {} ", clientId, list);
+        List<UserData> list;
+        if(!redisService.doesProviderListExists(clientId)){
+            list = userDataRepository.getFavoriteProviders(clientId);
+            redisService.saveFavoriteProviderList(list, clientId);
+            log.info("From DB: Client with Id: {} favorite provider List: {} ", clientId, list);
+        } else{
+            list = redisService.getProvidersListFromCache(clientId);
+            log.info("From cache: Client with Id: {} favorite provider List: {} ", clientId, list);
+        }
         return list;
     }
 
@@ -84,6 +94,7 @@ public class UserDataServiceImpl implements UserDataService {
     public void deleteFavoriteProvider(Long clientId, Long providerId) {
         userDataRepository.deleteFavoriteProvider(clientId, providerId);
         log.info("Provider with Id {} was removed from client Id {} favorite providers list", clientId, providerId);
+        redisService.removeProviderList(clientId);
     }
 
 }

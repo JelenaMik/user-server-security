@@ -91,23 +91,7 @@ public class UserController {
         return ResponseEntity.ok(userDataService.getProviderListIfSearchingStringIsEmpty());
     }
 
-    @PostMapping("/add-favorite")
-    public ResponseEntity<HttpStatus> addFavoriteProvider(Long clientId, Long providerId){
-        log.info("Client id: {}", clientId);
-        userDataService.addFavoriteProvider(clientId, providerId);
-        return new ResponseEntity<>(HttpStatus.CREATED);
-    }
 
-    @GetMapping("/favorite-providers/{clientId}")
-    public ResponseEntity<List> getFavoriteProvidersIds(@PathVariable Long clientId){
-        return new ResponseEntity<>(userDataService.getFavoriteProviders(clientId), HttpStatus.OK);
-    }
-
-    @DeleteMapping("/delete-favorite")
-    public ResponseEntity<HttpStatus> removeFavoriteProvider(Long clientId, Long providerId){
-        userDataService.deleteFavoriteProvider(clientId, providerId);
-        return ResponseEntity.noContent().build();
-    }
 
 
 

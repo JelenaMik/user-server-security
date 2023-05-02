@@ -28,4 +28,16 @@ public class RedisRepository {
         redisTemplate.opsForHash().put("favoriteProviders", clientId.toString(), providerList);
     }
 
+    public List<UserData> getProviderList(Long clientId) {
+        return (List<UserData>) redisTemplate.opsForHash().get("favoriteProviders", clientId.toString());
+    }
+
+    public void removeProviderList(Long clientId){
+        redisTemplate.opsForHash().delete("favoriteProviders", clientId.toString());
+    }
+
+    public Boolean doesProviderListExists(Long clientId){
+        return redisTemplate.opsForHash().hasKey("favoriteProviders", clientId.toString());
+    }
+
 }

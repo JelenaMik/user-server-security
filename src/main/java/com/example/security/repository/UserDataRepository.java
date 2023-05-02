@@ -67,7 +67,7 @@ public class UserDataRepository {
     }
 
     public List<UserData> getFavoriteProviders(Long clientId) {
-        List<UserData> list = restTemplate.getForObject(USER_DATA_FAVORITE_URL+"providers/"+clientId, List.class);
+        List<UserData> list = restTemplate.getForObject(USER_DATA_FAVORITE_URL+"providers-list/"+clientId, List.class);
         return mapper.convertValue(list, new TypeReference<List<UserData>>() {});
     }
 
