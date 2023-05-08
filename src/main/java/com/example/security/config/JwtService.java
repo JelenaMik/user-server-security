@@ -1,6 +1,9 @@
 package com.example.security.config;
 
+import com.example.security.auth.AuthenticationRequest;
+import com.fasterxml.jackson.core.filter.TokenFilter;
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.JwtParser;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
@@ -10,8 +13,11 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
+
+import org.bouncycastle.asn1.cms.AuthenticatedDataParser;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
+import springfox.documentation.builders.TokenRequestEndpointBuilder;
 
 @Service
 public class JwtService {
@@ -47,6 +53,10 @@ public class JwtService {
 
     public boolean isTokenValid(String token, UserDetails userDetails) {
         final String username = extractUsername(token);
+
+//        Jwts.parserBuilder().setSigningKey(getSignInKey()).build().parseClaimsJwt(token);
+//        JwtAuthenticationFilter
+
         return (username.equals(userDetails.getUsername())) && !isTokenExpired(token);
     }
 

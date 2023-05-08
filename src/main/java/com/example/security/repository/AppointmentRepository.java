@@ -1,8 +1,8 @@
 package com.example.security.repository;
 
-import com.example.security.responsebodymodel.AppointmentDetailDto;
-import com.example.security.responsebodymodel.AppointmentDto;
-import com.example.security.responsebodymodel.AppointmentRequest;
+import com.example.security.model.AppointmentDetailDto;
+import com.example.security.model.AppointmentDto;
+import com.example.security.model.AppointmentRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

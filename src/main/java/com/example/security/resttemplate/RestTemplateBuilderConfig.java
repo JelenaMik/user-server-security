@@ -1,4 +1,4 @@
-package com.example.security.configtemplate;
+package com.example.security.resttemplate;
 
 import org.springframework.boot.autoconfigure.web.client.RestTemplateBuilderConfigurer;
 import org.springframework.boot.web.client.RestTemplateBuilder;

@@ -1,4 +1,4 @@
-package com.example.security.responsebodymodel;
+package com.example.security.model;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

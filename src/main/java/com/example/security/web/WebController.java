@@ -5,7 +5,7 @@ import com.example.security.auth.AuthenticationResponse;
 import com.example.security.auth.AuthenticationService;
 import com.example.security.auth.RegisterRequest;
 import com.example.security.repository.model.User;
-import com.example.security.responsebodymodel.UserData;
+import com.example.security.model.UserData;
 import com.example.security.service.UserDataService;
 import com.example.security.service.UserService;
 import io.github.resilience4j.retry.annotation.Retry;

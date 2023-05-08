@@ -1,9 +1,9 @@
 package com.example.security.web;
 
-import com.example.security.responsebodymodel.AppointmentDetailDto;
-import com.example.security.responsebodymodel.AppointmentDto;
-import com.example.security.responsebodymodel.AppointmentRequest;
-import com.example.security.responsebodymodel.UserData;
+import com.example.security.model.AppointmentDetailDto;
+import com.example.security.model.AppointmentDto;
+import com.example.security.model.AppointmentRequest;
+import com.example.security.model.UserData;
 import com.example.security.service.AppointmentService;
 import com.example.security.service.UserDataService;
 import com.example.security.service.WebService;

@@ -1,30 +1,37 @@
-package com.example.security.responsebodymodel;
+package com.example.security.model;
 
-import com.example.security.enums.AppointmentStatus;
+import com.example.security.enums.AppointmentType;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.Nullable;
 import java.time.LocalDateTime;
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Component
 @Builder
-public class AppointmentDetailDto {
+public class AppointmentDto {
 
-    private Long appointmentDetailId;
-    @NotNull
     private Long appointmentId;
-    @Enumerated(EnumType.STRING)
-    private AppointmentStatus status;
+    @Nullable
+    private Long clientId;
+    @NotNull
+    private Long providerId;
+    @FutureOrPresent
     @JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss")
-    private LocalDateTime created;
+    private LocalDateTime startTime;
+    @Enumerated(EnumType.STRING)
+    private AppointmentType appointmentType;
+    @Size(max = 50)
+    private String details;
 }

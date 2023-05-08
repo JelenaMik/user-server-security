@@ -2,7 +2,7 @@ package com.example.security.service.impl;
 
 import com.example.security.exceptions.UserDataNotFoundException;
 import com.example.security.repository.UserDataRepository;
-import com.example.security.responsebodymodel.UserData;
+import com.example.security.model.UserData;
 import com.example.security.service.UserDataService;
 import com.example.security.service.UserService;
 import lombok.RequiredArgsConstructor;

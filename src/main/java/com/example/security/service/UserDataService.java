@@ -1,6 +1,6 @@
 package com.example.security.service;
 
-import com.example.security.responsebodymodel.UserData;
+import com.example.security.model.UserData;
 
 import java.util.List;
 

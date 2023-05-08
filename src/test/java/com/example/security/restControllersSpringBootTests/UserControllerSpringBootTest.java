@@ -8,7 +8,7 @@ import com.example.security.exceptions.UserNotFoundException;
 import com.example.security.repository.UserDataRepository;
 import com.example.security.repository.UserRepository;
 import com.example.security.repository.model.User;
-import com.example.security.responsebodymodel.UserData;
+import com.example.security.model.UserData;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.BeforeEach;
@@ -22,7 +22,6 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
-import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 import java.util.Optional;
