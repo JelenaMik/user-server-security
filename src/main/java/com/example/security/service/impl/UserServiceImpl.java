@@ -5,7 +5,6 @@ import com.example.security.auth.AuthenticationResponse;
 import com.example.security.auth.AuthenticationService;
 import com.example.security.config.JwtService;
 import com.example.security.enums.Role;
-import com.example.security.exceptions.UserDataNotFoundException;
 import com.example.security.exceptions.UserIsNotClientException;
 import com.example.security.exceptions.UserIsNotProviderException;
 import com.example.security.exceptions.UserNotFoundException;
@@ -54,12 +53,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public AuthenticationResponse changeEmailAndPassword(User user, String oldEmail) {
+    public AuthenticationResponse changeEmailAndPassword(AuthenticationRequest user, String oldEmail) {
         User userWithId = userRepository.findByEmail(oldEmail).orElseThrow(UserNotFoundException::new);
         userWithId.setEmail(user.getEmail());
         userWithId.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(userWithId);
-        var jwtToken = jwtService.generateToken(user);
+        var jwtToken = jwtService.generateToken(userWithId);
         return AuthenticationResponse.builder()
                 .token(jwtToken)
                 .build();
@@ -70,6 +69,13 @@ public class UserServiceImpl implements UserService {
         Optional<User> user = userRepository.findByEmail(email);
         if(user.isPresent()) return user.get().getId();
         else throw new UserNotFoundException();
+    }
+
+    //change to dto following methods
+
+    @Override
+    public Optional<User> getUserByEmail(String email) {
+        return userRepository.findByEmail(email);
     }
 
     @Override

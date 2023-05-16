@@ -5,7 +5,7 @@ import com.example.security.model.UserData;
 import java.util.List;
 
 public interface UserDataService {
-    List<UserData> getProviderListIfSearchingStringHasText(String string);
+    List<UserData> getProviderListIfSearchingStringHasText(String string, String token);
 
     List<UserData> getProviderListIfSearchingStringIsEmpty() ;
 

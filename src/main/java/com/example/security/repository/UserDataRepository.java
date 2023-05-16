@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
@@ -31,23 +32,33 @@ public class UserDataRepository {
             .findAndAddModules()
             .build();
 
-    public List<UserData> searchUserDataByName(String string){
-          List<UserData > list = restTemplate.getForObject(USER_DATA_SERVER_BASE_URL+"search-users?firstName=" + string, List.class);
+    public List<UserData> searchUserDataByName(String string, String token){
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Authorization", "Bearer "+ token);
+        HttpEntity<Object> entity =  new HttpEntity<>(headers);
+          List<UserData > list = restTemplate.exchange(USER_DATA_SERVER_BASE_URL+"search-users?firstName=" + string, HttpMethod.GET, entity, List.class).getBody();
         return  mapper.convertValue(list, new TypeReference<List<UserData>>() {});
     }
 
     public List<UserData> getProvidersData(List<Long> firstProviders){
+
         return restTemplate.exchange(
                 "http://localhost:8102/api/v1/userdata/provider-data",
-                HttpMethod.GET,
-                new HttpEntity<>(firstProviders),
+                HttpMethod.GET, new HttpEntity<>(firstProviders),
                 List.class )
                 .getBody();
     }
 
     public Optional<UserData> getUserDataByUserId(Long userId){
-        return Optional.ofNullable(restTemplate.getForObject(USER_DATA_SERVER_BASE_URL+"get-data/"+userId,  UserData.class));
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Authorization", "Bearer "+ "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VyNUBtYWlsLmNvbSIsImlhdCI6MTY4NDE1Mzg4MSwiZXhwIjoxNjg0Mjk3ODgxfQ.YeCybJzp0feaA97MI811uy6BKCQjt9L6HNL7JmYku2I");
+        HttpEntity<Object> entity =  new HttpEntity<>(headers);
+        return Optional.ofNullable(restTemplate.exchange(USER_DATA_SERVER_BASE_URL+"get-data/"+userId, HttpMethod.GET, entity,  UserData.class).getBody());
     }
+
+//    public Optional<UserData> getUserDataByUserId(Long userId){
+//        return Optional.ofNullable(restTemplate.getForObject(USER_DATA_SERVER_BASE_URL+"get-data/"+userId,  UserData.class));
+//    }
 
     public void saveUserData(UserData userData){
          restTemplate.postForObject(USER_DATA_SERVER_BASE_URL+"save", userData,  UserData.class);

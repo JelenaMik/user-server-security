@@ -19,8 +19,8 @@ public class UserDataServiceImpl implements UserDataService {
     private final UserService userService;
 
     @Override
-    public List<UserData> getProviderListIfSearchingStringHasText(String string){
-        List<UserData> list = userDataRepository.searchUserDataByName(string);
+    public List<UserData> getProviderListIfSearchingStringHasText(String string, String token){
+        List<UserData> list = userDataRepository.searchUserDataByName(string, token);
         log.debug("list is {}", list);
         List<UserData> providerList = list.stream()
                 .filter(userData -> userService.isUserDataProvider(userData.getUserId()))

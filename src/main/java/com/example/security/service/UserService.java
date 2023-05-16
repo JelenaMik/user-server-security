@@ -5,14 +5,17 @@ import com.example.security.auth.AuthenticationResponse;
 import com.example.security.repository.model.User;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface UserService {
     public AuthenticationResponse changePassword(Long userId, String password);
     public AuthenticationResponse changeEmail(Long userId, String email);
 
-    AuthenticationResponse changeEmailAndPassword(User user, String oldEmail);
+    AuthenticationResponse changeEmailAndPassword(AuthenticationRequest user, String oldEmail);
 
     Long getUserIdByEmail(String email);
+
+    Optional<User> getUserByEmail(String email);
 
     void changeUserRole(Long id, String role);
 

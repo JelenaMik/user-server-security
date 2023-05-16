@@ -69,10 +69,10 @@ public class UserController {
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
-    @PutMapping("/change-password/{id}")
-    public ResponseEntity<AuthenticationResponse> changePassword(@PathVariable Long id, String password) {
-        return ResponseEntity.ok(userService.changePassword(id, password));
-    }
+//    @PutMapping("/change-password/{id}")
+//    public ResponseEntity<AuthenticationResponse> changePassword(@PathVariable Long id, String password) {
+//        return ResponseEntity.ok(userService.changePassword(id, password));
+//    }
 
     @PutMapping("/change-email/{id}")
     public ResponseEntity<AuthenticationResponse> changeEmail(@PathVariable Long id, String email) {
