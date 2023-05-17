@@ -17,6 +17,8 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -33,6 +35,7 @@ import java.util.Optional;
 @RestController
 @Log4j2
 @RequiredArgsConstructor
+@EnableMethodSecurity
 @RequestMapping("/api/v1/userservice")
 public class WebControllerServiceMethods {
 
@@ -90,11 +93,13 @@ public class WebControllerServiceMethods {
         return new ResponseEntity<>(userService.changeEmailAndPassword(user, oldEmail), HttpStatus.OK);
     }
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/users")
     public List<UserDto> findUsersBySearching(@RequestParam(required = false) String email){
         return userService.findUsersBySearching(email);
     }
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PutMapping("/admin-change-password/{userId}")
     public String adminChangePassword( @PathVariable Long userId ){
         return userService.adminChangePassword(userId);
