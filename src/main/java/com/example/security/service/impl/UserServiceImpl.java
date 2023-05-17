@@ -5,9 +5,11 @@ import com.example.security.auth.AuthenticationResponse;
 import com.example.security.auth.AuthenticationService;
 import com.example.security.config.JwtService;
 import com.example.security.enums.Role;
+import com.example.security.model.UserDto;
 import com.example.security.exceptions.UserIsNotClientException;
 import com.example.security.exceptions.UserIsNotProviderException;
 import com.example.security.exceptions.UserNotFoundException;
+import com.example.security.mapper.UserMapper;
 import com.example.security.repository.UserRepository;
 import com.example.security.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -29,6 +31,7 @@ public class UserServiceImpl implements UserService {
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final AuthenticationService service;
+    private final UserMapper mapper;
 
     @Override
     public AuthenticationResponse changePassword(Long userId, String password) {
@@ -71,12 +74,12 @@ public class UserServiceImpl implements UserService {
         else throw new UserNotFoundException();
     }
 
-    //change to dto following methods
-
     @Override
-    public Optional<User> getUserByEmail(String email) {
-        return userRepository.findByEmail(email);
+    public Optional<UserDto> getUserByEmail(String email) {
+        return Optional.ofNullable(mapper.userTouserDto(userRepository.findByEmail(email).orElseThrow(UserNotFoundException::new)));
     }
+
+
 
     @Override
     public void changeUserRole(Long id, String role) {
@@ -87,15 +90,15 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public User getUserById(Long id){
-        return userRepository.findById(id).orElseThrow(UserNotFoundException::new);
+    public UserDto getUserById(Long id){
+        return mapper.userTouserDto(userRepository.findById(id).orElseThrow(UserNotFoundException::new));
     }
 
     @Override
-    public List<User> findUsersBySearching(String email){
+    public List<UserDto> findUsersBySearching(String email){
         log.info("email entered {}", email );
-        if (StringUtils.hasText(email)) return userRepository.findFirst10ByEmailContaining(email);
-        return userRepository.findFirst10ByOrderByIdAsc();
+        if (StringUtils.hasText(email)) return userRepository.findFirst10ByEmailContaining(email).stream().map(mapper::userTouserDto).toList();
+        return userRepository.findFirst10ByOrderByIdAsc().stream().map(mapper::userTouserDto).toList();
     }
 
     @Override

@@ -2,6 +2,7 @@ package com.example.security.service;
 
 import com.example.security.auth.AuthenticationRequest;
 import com.example.security.auth.AuthenticationResponse;
+import com.example.security.model.UserDto;
 import com.example.security.repository.model.User;
 
 import java.util.List;
@@ -15,13 +16,13 @@ public interface UserService {
 
     Long getUserIdByEmail(String email);
 
-    Optional<User> getUserByEmail(String email);
+    Optional<UserDto> getUserByEmail(String email);
 
     void changeUserRole(Long id, String role);
 
-    User getUserById(Long id);
+    UserDto getUserById(Long id);
 
-    List<User> findUsersBySearching(String email);
+    List<UserDto> findUsersBySearching(String email);
 
 
     List<Long> findProvidersBySearching();

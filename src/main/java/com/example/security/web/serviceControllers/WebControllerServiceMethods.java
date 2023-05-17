@@ -7,6 +7,7 @@ import com.example.security.exceptions.UserIsNotClientException;
 import com.example.security.exceptions.UserIsNotProviderException;
 import com.example.security.exceptions.UserNotFoundException;
 import com.example.security.model.UserData;
+import com.example.security.model.UserDto;
 import com.example.security.repository.model.User;
 import com.example.security.service.UserDataService;
 import com.example.security.service.UserService;
@@ -44,7 +45,7 @@ public class WebControllerServiceMethods {
 }
 
 @GetMapping("/{userId}")
-    public ResponseEntity<User> findById(@PathVariable Long userId){
+    public ResponseEntity<UserDto> findById(@PathVariable Long userId){
     return ResponseEntity.ok(userService.getUserById(userId));
 }
 
@@ -63,7 +64,7 @@ public class WebControllerServiceMethods {
         return  userService.getUserIdByEmail(email);
     }
     @GetMapping("/find-user/{email}")
-    public Optional<User> getUserByEmail(@PathVariable String email){
+    public Optional<UserDto> getUserByEmail(@PathVariable String email){
         return  userService.getUserByEmail(email);
     }
 
@@ -90,7 +91,7 @@ public class WebControllerServiceMethods {
     }
 
     @GetMapping("/users")
-    public List<User> findUsersBySearching(@RequestParam(required = false) String email){
+    public List<UserDto> findUsersBySearching(@RequestParam(required = false) String email){
         return userService.findUsersBySearching(email);
     }
 

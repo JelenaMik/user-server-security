@@ -5,9 +5,12 @@ import com.example.security.mapper.UserMapper;
 import com.example.security.model.UserDto;
 import com.example.security.repository.UserRepository;
 import com.example.security.repository.model.User;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 
 @RequiredArgsConstructor
+@Service
 public class UserMapperImpl implements UserMapper {
     private final UserRepository repository;
     @Override
